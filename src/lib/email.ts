@@ -55,6 +55,8 @@ export async function sendOrderEmail(order: Order): Promise<void> {
       </p>
     </div>`;
 
+  const from = process.env.RESEND_FROM || "TrophyFrames <onboarding@resend.dev>";
+
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -63,7 +65,7 @@ export async function sendOrderEmail(order: Order): Promise<void> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "TrophyFrames <onboarding@resend.dev>",
+        from,
         to: [to],
         subject: `🖼️ Nouvelle commande ${order.id} — ${athletes}`,
         html,
@@ -89,7 +91,18 @@ async function sendCustomerEmail(order: Order): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM;
   const to = order.shipping.email;
-  if (!apiKey || !from || !to || to === "—") return;
+  if (!apiKey) {
+    console.log("[email client] RESEND_API_KEY manquant.");
+    return;
+  }
+  if (!from) {
+    console.log("[email client] RESEND_FROM manquant — email client non envoyé.");
+    return;
+  }
+  if (!to || to === "—") {
+    console.log("[email client] adresse client manquante:", to);
+    return;
+  }
 
   const c = order.config;
   const isDuo = isDuoType(c.type);
