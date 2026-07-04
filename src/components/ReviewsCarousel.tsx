@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export interface Review {
   name: string;
@@ -51,10 +52,35 @@ function Card({ r }: { r: Review }) {
 }
 
 export default function ReviewsCarousel({
-  reviews = sampleReviews,
+  reviews: initial,
 }: {
   reviews?: Review[];
 }) {
+  const [reviews, setReviews] = useState<Review[]>(initial || sampleReviews);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/reviews")
+      .then((r) => r.json())
+      .then((data) => {
+        if (active && Array.isArray(data.reviews) && data.reviews.length > 0) {
+          setReviews(
+            data.reviews.map((r: { name: string; text: string; stars: number }) => ({
+              name: r.name,
+              text: r.text,
+              stars: r.stars,
+            }))
+          );
+        }
+      })
+      .catch(() => {
+        /* keep samples on error */
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // Duplicate the list so the marquee loops seamlessly.
   const loop = [...reviews, ...reviews];
   return (
