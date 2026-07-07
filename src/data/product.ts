@@ -11,6 +11,7 @@ export interface FrameConfig {
   p2LastName: string;
   rankingOverall: string; // #OV — classement général
   rankingAge: string; // #AG — classement catégorie d'âge
+  showRanking: boolean; // afficher ou non les classements #OV / #AG
 }
 
 // Pays figé : France uniquement pour l'instant.
@@ -59,6 +60,7 @@ export const defaultConfig: FrameConfig = {
   p2LastName: "Ferrand",
   rankingOverall: "57",
   rankingAge: "128",
+  showRanking: true,
 };
 
 export function flagEmoji(code: string): string {

@@ -116,12 +116,14 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
                     <VelcroPatch width="34%" />
                   </div>
                   {/* single #OV / #AG centered below */}
-                  <div className="flex items-center justify-center gap-[10%] mt-[3.5%]">
-                    <RankBadge label="#OV" value={config.rankingOverall} />
-                    <RankBadge label="#AG" value={config.rankingAge} />
-                  </div>
+                  {config.showRanking && (
+                    <div className="flex items-center justify-center gap-[10%] mt-[3.5%]">
+                      <RankBadge label="#OV" value={config.rankingOverall} />
+                      <RankBadge label="#AG" value={config.rankingAge} />
+                    </div>
+                  )}
                 </>
-              ) : (
+              ) : config.showRanking ? (
                 /* MIDDLE ROW: #OV — patch — #AG (solo & duo-solo: 1 patch) */
                 <div className="flex items-center justify-center gap-[3%] w-full mt-[4%]">
                   <div className="w-[18%] shrink-0 flex justify-center">
@@ -131,6 +133,11 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
                   <div className="w-[18%] shrink-0 flex justify-center">
                     <RankBadge label="#AG" value={config.rankingAge} />
                   </div>
+                </div>
+              ) : (
+                /* rankings hidden: patch centered alone */
+                <div className="flex items-center justify-center w-full mt-[4%]">
+                  <VelcroPatch width="42%" />
                 </div>
               )}
 

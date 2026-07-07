@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import ReviewForm from "@/components/ReviewForm";
+import FrameEnterButton from "@/components/FrameEnterButton";
 import { PRICE_SOLO } from "@/data/product";
 
 const features = [
@@ -67,6 +68,14 @@ const steps = [
 export default function Home() {
   return (
     <div className="relative">
+      {/* black → gold ambient gradient background */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(120% 80% at 50% 0%, rgba(201,162,75,0.14) 0%, rgba(201,162,75,0.05) 22%, rgba(10,10,11,0) 55%), linear-gradient(180deg, #0a0a0b 0%, #0d0b07 45%, #0a0a0b 100%)",
+        }}
+      />
       {/* ambient glow */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent/5 blur-[120px]" />
 
@@ -108,7 +117,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="mt-8 flex flex-wrap items-center gap-4"
             >
-              <Link
+              <FrameEnterButton
                 href="/configurateur"
                 className="group px-7 py-3.5 rounded-full bg-pearl text-ink font-medium hover:bg-white transition-all duration-300 hover:scale-105"
               >
@@ -116,7 +125,7 @@ export default function Home() {
                 <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">
                   →
                 </span>
-              </Link>
+              </FrameEnterButton>
               <div className="text-sm text-mist">
                 <span className="text-pearl font-semibold text-lg">
                   À partir de{" "}
@@ -233,12 +242,12 @@ export default function Home() {
                 </span>
                 <h3 className="text-3xl font-semibold mt-2 mb-3">{m.t}</h3>
                 <p className="text-mist leading-relaxed max-w-sm">{m.d}</p>
-                <Link
+                <FrameEnterButton
                   href={m.href}
                   className="inline-flex items-center gap-2 mt-6 text-sm text-pearl hover:gap-3 transition-all"
                 >
                   Personnaliser →
-                </Link>
+                </FrameEnterButton>
               </div>
             </Reveal>
           ))}
@@ -354,12 +363,12 @@ export default function Home() {
                 Créez votre cadre en quelques minutes. À partir de {PRICE_SOLO}€
                 · livraison gratuite.
               </p>
-              <Link
+              <FrameEnterButton
                 href="/configurateur"
                 className="inline-block px-8 py-4 rounded-full bg-pearl text-ink font-medium hover:bg-white transition-all duration-300 hover:scale-105"
               >
                 Commander mon cadre
-              </Link>
+              </FrameEnterButton>
             </div>
           </div>
         </Reveal>

@@ -206,23 +206,51 @@ export default function Configurator({
                 )}
               </AnimatePresence>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Classement général (#OV)">
+              <div>
+                <label className="flex items-center gap-2.5 cursor-pointer select-none mb-3">
                   <input
-                    className="field-input"
-                    value={config.rankingOverall}
-                    onChange={(e) => update("rankingOverall", e.target.value)}
-                    placeholder="57"
+                    type="checkbox"
+                    checked={!config.showRanking}
+                    onChange={(e) => update("showRanking", !e.target.checked)}
+                    className="w-4 h-4 rounded accent-accent cursor-pointer"
                   />
-                </Field>
-                <Field label="Classement catégorie (#AG)">
-                  <input
-                    className="field-input"
-                    value={config.rankingAge}
-                    onChange={(e) => update("rankingAge", e.target.value)}
-                    placeholder="128"
-                  />
-                </Field>
+                  <span className="text-sm text-mist">
+                    Je ne souhaite pas afficher mon classement
+                  </span>
+                </label>
+
+                {config.showRanking && (
+                  <div className="grid grid-cols-2 gap-4">
+                    <Field label="Classement général (#OV)">
+                      <input
+                        className="field-input"
+                        value={config.rankingOverall}
+                        onChange={(e) =>
+                          update(
+                            "rankingOverall",
+                            e.target.value.replace(/\D/g, "").slice(0, 6)
+                          )
+                        }
+                        inputMode="numeric"
+                        placeholder="57"
+                      />
+                    </Field>
+                    <Field label="Classement catégorie (#AG)">
+                      <input
+                        className="field-input"
+                        value={config.rankingAge}
+                        onChange={(e) =>
+                          update(
+                            "rankingAge",
+                            e.target.value.replace(/\D/g, "").slice(0, 6)
+                          )
+                        }
+                        inputMode="numeric"
+                        placeholder="128"
+                      />
+                    </Field>
+                  </div>
+                )}
               </div>
 
               {/* fixed country */}

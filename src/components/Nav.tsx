@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import FrameEnterButton from "@/components/FrameEnterButton";
 
 const links = [
   { href: "/", label: "Accueil" },
@@ -46,12 +47,12 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
-          <Link
+          <FrameEnterButton
             href="/configurateur"
             className="text-sm px-5 py-2 rounded-full bg-pearl text-ink font-medium hover:bg-white transition-all duration-300 hover:scale-105"
           >
             Créer mon cadre
-          </Link>
+          </FrameEnterButton>
         </div>
 
         <button
@@ -91,13 +92,12 @@ export default function Nav() {
                   {l.label}
                 </Link>
               ))}
-              <Link
+              <FrameEnterButton
                 href="/configurateur"
-                onClick={() => setOpen(false)}
-                className="text-sm px-5 py-2.5 rounded-full bg-pearl text-ink font-medium text-center"
+                className="text-sm px-5 py-2.5 rounded-full bg-pearl text-ink font-medium text-center w-full"
               >
                 Créer mon cadre
-              </Link>
+              </FrameEnterButton>
             </div>
           </motion.div>
         )}
