@@ -17,7 +17,16 @@ html {
 }
 
 body {
-  background: #0a0a0b;
+  background-color: #0a0a0b;
+  background-image: radial-gradient(
+      120% 70% at 50% 0%,
+      rgba(201, 162, 75, 0.13) 0%,
+      rgba(201, 162, 75, 0.04) 20%,
+      rgba(10, 10, 11, 0) 50%
+    ),
+    linear-gradient(180deg, #0a0a0b 0%, #100d08 40%, #0a0a0b 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: #f4f4f5;
   overflow-x: hidden;
 }

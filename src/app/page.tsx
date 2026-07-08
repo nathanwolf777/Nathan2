@@ -68,14 +68,6 @@ const steps = [
 export default function Home() {
   return (
     <div className="relative">
-      {/* black → gold ambient gradient background */}
-      <div
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(120% 80% at 50% 0%, rgba(201,162,75,0.14) 0%, rgba(201,162,75,0.05) 22%, rgba(10,10,11,0) 55%), linear-gradient(180deg, #0a0a0b 0%, #0d0b07 45%, #0a0a0b 100%)",
-        }}
-      />
       {/* ambient glow */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent/5 blur-[120px]" />
 
