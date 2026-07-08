@@ -67,9 +67,9 @@ const steps = [
 
 export default function Home() {
   return (
-    <div className="relative">
+    <div className="relative overflow-x-clip">
       {/* ambient glow */}
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent/5 blur-[120px]" />
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[min(800px,100vw)] h-[500px] sm:h-[800px] rounded-full bg-accent/5 blur-[120px]" />
 
       {/* HERO */}
       <section className="relative pt-32 pb-20 px-5">
