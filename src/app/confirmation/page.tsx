@@ -5,7 +5,12 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import FramePreview from "@/components/FramePreview";
-import { FrameConfig, defaultConfig } from "@/data/product";
+import {
+  FrameConfig,
+  defaultConfig,
+  labelFor,
+  shippingLabel,
+} from "@/data/product";
 
 interface Summary {
   id: string;
@@ -98,7 +103,7 @@ function Confirmation() {
                 <Row label="Référence" value={data.id} />
                 <Row
                   label="Modèle"
-                  value={`Cadre ${data.config.type === "duo" ? "Duo" : "Solo"}`}
+                  value={`Cadre ${labelFor(data.config.type)}`}
                 />
                 <Row
                   label="Montant"
@@ -107,8 +112,22 @@ function Confirmation() {
                     currency: "EUR",
                   })}
                 />
-                <Row label="Livraison" value="Gratuite" />
+                <Row
+                  label="Livraison"
+                  value={shippingLabel(data.config.shipping)}
+                />
               </div>
+
+              {data.config.shipping === "relay" && (
+                <div className="rounded-2xl border border-accent/40 bg-accent/[0.07] px-5 py-4 mb-6 text-left">
+                  <p className="text-sm text-pearl leading-relaxed">
+                    Vous avez choisi la{" "}
+                    <span className="font-medium">livraison en point relais</span>.
+                    Vous allez recevoir un email pour choisir le point relais de
+                    votre choix.
+                  </p>
+                </div>
+              )}
               <Link
                 href="/"
                 className="inline-block px-6 py-3 rounded-full bg-pearl text-ink font-medium hover:bg-white transition-colors"

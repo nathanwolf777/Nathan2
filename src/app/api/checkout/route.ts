@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { priceFor, labelFor, isDuoType, FrameConfig } from "@/data/product";
+import {
+  priceFor,
+  labelFor,
+  isDuoType,
+  shippingCost,
+  shippingLabel,
+  FrameConfig,
+} from "@/data/product";
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,6 +40,21 @@ export async function POST(req: NextRequest) {
           },
           quantity: 1,
         },
+        // Shipping as its own line so the customer sees the breakdown.
+        ...(shippingCost(config.shipping) > 0
+          ? [
+              {
+                price_data: {
+                  currency: "eur" as const,
+                  product_data: {
+                    name: shippingLabel(config.shipping),
+                  },
+                  unit_amount: Math.round(shippingCost(config.shipping) * 100),
+                },
+                quantity: 1,
+              },
+            ]
+          : []),
       ],
       shipping_address_collection: {
         allowed_countries: [
@@ -42,6 +64,7 @@ export async function POST(req: NextRequest) {
       },
       metadata: {
         frameConfig: JSON.stringify(compact).slice(0, 490),
+        livraison: shippingLabel(config.shipping),
       },
       success_url: `${baseUrl}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/configurateur`,

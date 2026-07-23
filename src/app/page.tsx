@@ -8,7 +8,6 @@ import ReviewsCarousel from "@/components/ReviewsCarousel";
 import ReviewForm from "@/components/ReviewForm";
 import FrameEnterButton from "@/components/FrameEnterButton";
 import HeroMedia from "@/components/HeroMedia";
-import AmbientBackground from "@/components/AmbientBackground";
 import { PRICE_SOLO } from "@/data/product";
 
 const features = [
@@ -70,7 +69,6 @@ const steps = [
 export default function Home() {
   return (
     <div className="relative overflow-x-clip">
-      <AmbientBackground />
       {/* ambient glow */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[min(800px,100vw)] h-[500px] sm:h-[800px] rounded-full bg-accent/5 blur-[120px]" />
 

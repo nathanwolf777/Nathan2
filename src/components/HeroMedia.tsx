@@ -41,10 +41,10 @@ export default function HeroMedia() {
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="relative grid grid-cols-5 gap-2 sm:gap-3 items-stretch"
+        className="relative flex flex-col gap-3"
       >
-        {/* LEFT — video (or placeholder) */}
-        <div className="col-span-3 relative rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06] min-h-[380px]">
+        {/* TOP — the video, full width for maximum presence */}
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06] aspect-video">
           {hasVideo ? (
             <video
               ref={videoRef}
@@ -78,8 +78,8 @@ export default function HeroMedia() {
           />
         </div>
 
-        {/* RIGHT — two stacked photos */}
-        <div className="col-span-2 grid grid-rows-2 gap-2 sm:gap-3">
+        {/* BOTTOM — two photos side by side */}
+        <div className="grid grid-cols-2 gap-3">
           <PhotoTile
             src="/cadre-hero.jpg"
             alt="Cadre souvenir TrophyFrames — modèle Duo"
@@ -109,7 +109,7 @@ function PhotoTile({
     <motion.div
       whileHover={{ scale: 1.03 }}
       transition={{ type: "spring", stiffness: 220, damping: 22 }}
-      className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06]"
+      className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06] aspect-[4/5]"
     >
       <Image
         src={src}

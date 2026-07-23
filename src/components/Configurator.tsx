@@ -10,6 +10,10 @@ import {
   COUNTRY_LABEL,
   flagEmoji,
   priceFor,
+  totalFor,
+  shippingCost,
+  shippingLabel,
+  SHIPPING_HOME_SURCHARGE,
   labelFor,
   isDuoType,
   FRAME_DIMENSIONS,
@@ -285,23 +289,83 @@ export default function Configurator({
                   du cadre.
                 </p>
               </div>
+
+              {/* delivery choice */}
+              <div>
+                <div className="text-[11px] tracking-wider text-mist uppercase mb-2">
+                  Livraison
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => update("shipping", "relay")}
+                    className={`rounded-xl border px-4 py-3 text-left transition-all ${
+                      config.shipping === "relay"
+                        ? "border-accent/60 bg-accent/10"
+                        : "border-white/[0.08] bg-smoke/40 hover:border-white/20"
+                    }`}
+                  >
+                    <div className="text-sm font-medium">Point relais</div>
+                    <div className="text-xs text-accent mt-0.5">Offerte</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => update("shipping", "home")}
+                    className={`rounded-xl border px-4 py-3 text-left transition-all ${
+                      config.shipping === "home"
+                        ? "border-accent/60 bg-accent/10"
+                        : "border-white/[0.08] bg-smoke/40 hover:border-white/20"
+                    }`}
+                  >
+                    <div className="text-sm font-medium">À domicile</div>
+                    <div className="text-xs text-mist mt-0.5">
+                      +{SHIPPING_HOME_SURCHARGE.toFixed(2).replace(".", ",")} €
+                    </div>
+                  </button>
+                </div>
+
+                {config.shipping === "relay" && (
+                  <p className="text-[11px] text-mist leading-relaxed mt-2">
+                    Vous recevrez un email après votre commande pour choisir
+                    votre point relais.
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* order box */}
             <div className="glass rounded-2xl p-6 mt-6">
-              <div className="flex items-baseline justify-between mb-1">
-                <span className="text-sm text-mist">
-                  Cadre {labelFor(config.type)}
-                </span>
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline justify-between text-sm text-mist">
+                <span>Cadre {labelFor(config.type)}</span>
+                <span>
                   {priceFor(config.type).toLocaleString("fr-FR", {
                     style: "currency",
                     currency: "EUR",
                   })}
                 </span>
               </div>
-              <div className="text-xs text-mist mb-5">
-                Livraison gratuite · Fabriqué à la demande
+              <div className="flex items-baseline justify-between text-sm text-mist mt-1">
+                <span>{shippingLabel(config.shipping)}</span>
+                <span>
+                  {config.shipping === "home"
+                    ? shippingCost(config.shipping).toLocaleString("fr-FR", {
+                        style: "currency",
+                        currency: "EUR",
+                      })
+                    : "Offerte"}
+                </span>
+              </div>
+              <div className="flex items-baseline justify-between mt-3 pt-3 border-t border-white/[0.08]">
+                <span className="text-sm text-pearl">Total</span>
+                <span className="text-2xl font-semibold">
+                  {totalFor(config.type, config.shipping).toLocaleString(
+                    "fr-FR",
+                    { style: "currency", currency: "EUR" }
+                  )}
+                </span>
+              </div>
+              <div className="text-xs text-mist mb-5 mt-1">
+                Fabriqué à la demande
               </div>
 
               {error && (

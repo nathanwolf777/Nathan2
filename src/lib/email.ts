@@ -1,5 +1,5 @@
 import { Order } from "./orders";
-import { isDuoType, labelFor } from "@/data/product";
+import { isDuoType, labelFor, shippingLabel } from "@/data/product";
 
 // Sends an order-notification email via Resend.
 // Requires env vars: RESEND_API_KEY and ORDER_EMAIL_TO (your inbox).
@@ -28,6 +28,7 @@ export async function sendOrderEmail(order: Order): Promise<void> {
     ["Classement catégorie (#AG)", c.rankingAge],
     ["Montant", `${order.amount.toFixed(2)} €`],
     ["— Livraison —", ""],
+    ["Mode choisi", shippingLabel(c.shipping)],
     ["Nom", order.shipping.name],
     ["Email client", order.shipping.email],
     ["Adresse", order.shipping.address],
@@ -50,6 +51,15 @@ export async function sendOrderEmail(order: Order): Promise<void> {
           )
           .join("")}
       </table>
+      ${
+        c.shipping === "relay"
+          ? `<p style="background:#fff6e0;border-left:4px solid #c9a24b;padding:12px;margin-top:16px;font-size:13px">
+               <strong>Action requise :</strong> le client a choisi la livraison
+               en <strong>point relais</strong>. Envoyez-lui un email via Mondial
+               Relay pour qu'il choisisse son point relais.
+             </p>`
+          : ""
+      }
       <p style="color:#999;font-size:12px;margin-top:20px">
         Rappel : le patch est collé par le client à réception (zone velcro).
       </p>
@@ -128,8 +138,19 @@ async function sendCustomerEmail(order: Order): Promise<void> {
               2
             )} €</td></tr>
         <tr><td style="padding:6px 8px;border-bottom:1px solid #eee;color:#666">Livraison</td>
-            <td style="padding:6px 8px;border-bottom:1px solid #eee;font-weight:600">Gratuite</td></tr>
+            <td style="padding:6px 8px;border-bottom:1px solid #eee;font-weight:600">${shippingLabel(
+              c.shipping
+            )}</td></tr>
       </table>
+      ${
+        c.shipping === "relay"
+          ? `<p style="background:#fff6e0;border-left:4px solid #c9a24b;padding:12px;margin-top:16px;font-size:13px">
+               Vous avez choisi la livraison en <strong>point relais</strong>.
+               Vous recevrez prochainement un email pour choisir le point relais
+               de votre choix.
+             </p>`
+          : ""
+      }
       <p style="color:#999;font-size:12px;margin-top:20px">
         Rappel : le centre du cadre comporte une bande velcro pour y coller
         votre patch de compétition à réception.

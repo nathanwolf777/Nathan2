@@ -12,6 +12,27 @@ export interface FrameConfig {
   rankingOverall: string; // #OV — classement général
   rankingAge: string; // #AG — classement catégorie d'âge
   showRanking: boolean; // afficher ou non les classements #OV / #AG
+  shipping: ShippingMethod; // mode de livraison choisi
+}
+
+// Modes de livraison. Le point relais est offert, le domicile est majoré.
+export type ShippingMethod = "relay" | "home";
+
+export const SHIPPING_HOME_SURCHARGE = 2;
+
+export function shippingCost(method: ShippingMethod): number {
+  return method === "home" ? SHIPPING_HOME_SURCHARGE : 0;
+}
+
+export function shippingLabel(method: ShippingMethod): string {
+  return method === "home"
+    ? "Livraison à domicile"
+    : "Livraison en point relais";
+}
+
+// Prix total = cadre + livraison.
+export function totalFor(type: FrameType, method: ShippingMethod): number {
+  return priceFor(type) + shippingCost(method);
 }
 
 // Pays figé : France uniquement pour l'instant.
@@ -61,6 +82,7 @@ export const defaultConfig: FrameConfig = {
   rankingOverall: "57",
   rankingAge: "128",
   showRanking: true,
+  shipping: "relay",
 };
 
 export function flagEmoji(code: string): string {
