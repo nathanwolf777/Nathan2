@@ -89,7 +89,6 @@ export default function HeroMedia() {
             src="/produit-2.jpg"
             alt="Cadre souvenir TrophyFrames personnalisé avec patch de compétition"
             delay={1.5}
-            contain
           />
         </div>
       </motion.div>
