@@ -86,9 +86,10 @@ export default function HeroMedia() {
             delay={0}
           />
           <PhotoTile
-            src="/produit-1.jpg"
-            alt="Cadre souvenir TrophyFrames personnalisé"
+            src="/produit-2.jpg"
+            alt="Cadre souvenir TrophyFrames personnalisé avec patch de compétition"
             delay={1.5}
+            contain
           />
         </div>
       </motion.div>
@@ -100,10 +101,12 @@ function PhotoTile({
   src,
   alt,
   delay,
+  contain = false,
 }: {
   src: string;
   alt: string;
   delay: number;
+  contain?: boolean;
 }) {
   return (
     <motion.div
@@ -116,7 +119,9 @@ function PhotoTile({
         alt={alt}
         width={600}
         height={800}
-        className="w-full h-full object-cover"
+        className={`w-full h-full ${
+          contain ? "object-contain bg-smoke/60 p-1" : "object-cover"
+        }`}
       />
       {/* subtle sweeping glare, offset from the video's */}
       <motion.div
