@@ -330,6 +330,10 @@ export default function Configurator({
                     votre point relais.
                   </p>
                 )}
+
+                <p className="text-[11px] text-mist/70 leading-relaxed mt-2">
+                  Nous livrons uniquement en France pour le moment.
+                </p>
               </div>
             </div>
 
@@ -401,6 +405,11 @@ export default function Configurator({
               <FramePreview config={config} />
               <p className="text-center text-xs text-mist mt-2">
                 Déplacez la souris sur le cadre · survolez pour zoomer
+              </p>
+              <p className="text-center text-[11px] text-mist/70 mt-2 leading-relaxed max-w-sm mx-auto">
+                Aperçu indicatif destiné à visualiser votre personnalisation. Le
+                rendu final du cadre peut différer légèrement de cette
+                simulation.
               </p>
             </div>
           </div>

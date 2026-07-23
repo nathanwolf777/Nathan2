@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Quelle est la différence entre le cadre Solo et Duo ?",
-    a: "Le cadre Solo met en avant une performance individuelle (34,99 €). Le cadre Duo affiche deux participants et le temps de l'équipe (49,99 €) — idéal pour les compétitions par binôme.",
+    a: "Le cadre Solo met en avant une performance individuelle (34,99 €). Le cadre Duo affiche deux participants avec deux emplacements de patch et le temps de l'équipe (39,99 €). Le cadre Duo (1 patch) affiche également deux participants mais avec un seul emplacement de patch (34,99 €).",
   },
   {
     q: "Quelles sont les dimensions du cadre ?",
@@ -23,8 +23,8 @@ const faqs = [
     a: "Chaque cadre est fabriqué à la demande. Comptez généralement 5 à 10 jours ouvrés pour la fabrication et l'expédition. Vous recevez un email de suivi dès l'expédition.",
   },
   {
-    q: "La livraison est-elle vraiment gratuite ?",
-    a: "Oui. La livraison est offerte, sans montant minimum, vers l'ensemble des pays desservis.",
+    q: "Quelles sont les options de livraison ?",
+    a: "La livraison en point relais est offerte, sans montant minimum. La livraison à domicile est disponible pour 2 € supplémentaires. Nous livrons uniquement en France pour le moment.",
   },
   {
     q: "Comment fonctionne l'emplacement pour le patch ?",

@@ -56,11 +56,9 @@ export async function POST(req: NextRequest) {
             ]
           : []),
       ],
+      // Livraison en France métropolitaine uniquement pour le moment.
       shipping_address_collection: {
-        allowed_countries: [
-          "FR", "BE", "CH", "CA", "US", "GB", "DE", "ES", "IT",
-          "PT", "NL", "SE", "NO", "DK", "AU", "LU", "IE",
-        ],
+        allowed_countries: ["FR"],
       },
       metadata: {
         frameConfig: JSON.stringify(compact).slice(0, 490),

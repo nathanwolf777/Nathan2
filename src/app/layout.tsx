@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s — TrophyFrames",
   },
   description:
-    "Cadres souvenirs personnalisés pour les passionnés de compétitions fitness. Immortalisez vos performances avec un cadre premium en édition unique. À partir de 34,99 € — livraison gratuite.",
+    "Cadres souvenirs personnalisés pour les passionnés de compétitions fitness. Immortalisez vos performances avec un cadre premium en édition unique. À partir de 34,99 € — livraison offerte en point relais, en France.",
   keywords: [
     "cadre personnalisé",
     "fitness",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "TrophyFrames — Vos performances, immortalisées",
     description:
-      "Cadres souvenirs personnalisés premium pour athlètes. À partir de 34,99 € — livraison gratuite.",
+      "Cadres souvenirs personnalisés premium pour athlètes. À partir de 34,99 € — livraison offerte en point relais, en France.",
     url: baseUrl,
     siteName: "TrophyFrames",
     locale: "fr_FR",

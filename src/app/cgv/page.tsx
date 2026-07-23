@@ -26,7 +26,7 @@ export default function CGVPage() {
         },
         {
           h: "4. Prix",
-          p: "Le cadre Solo est vendu 34,99 € et les cadres Duo 49,99 €, toutes taxes comprises, livraison incluse. Les prix sont indiqués en euros. TrophyFrames se réserve le droit de modifier ses prix à tout moment ; le prix appliqué est celui en vigueur au moment de la validation de la commande.",
+          p: "Le cadre Solo est vendu 34,99 €, le cadre Duo 39,99 € et le cadre Duo (1 patch) 34,99 €, toutes taxes comprises. La livraison en point relais est offerte ; la livraison à domicile est facturée 2 € en supplément. Les prix sont indiqués en euros. TrophyFrames se réserve le droit de modifier ses prix à tout moment ; le prix appliqué est celui en vigueur au moment de la validation de la commande.",
         },
         {
           h: "5. Commande et paiement",
@@ -34,7 +34,7 @@ export default function CGVPage() {
         },
         {
           h: "6. Livraison",
-          p: "La livraison est gratuite. Chaque cadre étant fabriqué à la demande, le délai indicatif de fabrication et de livraison est de 5 à 10 jours ouvrés à compter de la validation de la commande. Ce délai est donné à titre indicatif ; TrophyFrames ne saurait être tenue responsable des retards imputables au transporteur.",
+          p: "Nous livrons uniquement en France pour le moment. Deux modes sont proposés : la livraison en point relais, offerte, et la livraison à domicile, facturée 2 €. En cas de choix du point relais, le client reçoit après sa commande un email lui permettant de sélectionner le point relais de son choix. Chaque cadre étant fabriqué à la demande, le délai indicatif de fabrication et de livraison est de 5 à 10 jours ouvrés à compter de la validation de la commande. Ce délai est donné à titre indicatif ; TrophyFrames ne saurait être tenue responsable des retards imputables au transporteur.",
         },
         {
           h: "7. Droit de rétractation",

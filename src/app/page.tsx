@@ -63,7 +63,7 @@ function FeatureIcon({ name }: { name: string }) {
 const steps = [
   { n: "01", t: "Personnalisez", d: "Temps, nom, pays et classements #OV / #AG." },
   { n: "02", t: "Prévisualisez", d: "Un rendu ultra-réaliste, mis à jour en direct." },
-  { n: "03", t: "Commandez", d: "Paiement sécurisé, livraison gratuite chez vous." },
+  { n: "03", t: "Commandez", d: "Paiement sécurisé, livraison offerte en point relais." },
 ];
 
 export default function Home() {
@@ -127,7 +127,7 @@ export default function Home() {
                     currency: "EUR",
                   })}
                 </span>
-                {" · "}Livraison gratuite
+                {" · "}Livraison offerte en point relais
               </div>
             </motion.div>
           </div>
@@ -260,7 +260,7 @@ export default function Home() {
               </h2>
               <p className="text-mist mb-8 max-w-md mx-auto">
                 Créez votre cadre en quelques minutes. À partir de {PRICE_SOLO}€
-                · livraison gratuite.
+                · livraison offerte en point relais.
               </p>
               <FrameEnterButton
                 href="/configurateur"
