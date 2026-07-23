@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Quelle est la différence entre le cadre Solo et Duo ?",
-    a: "Le cadre Solo met en avant une performance individuelle (34,99 €). Le cadre Duo affiche deux participants avec deux emplacements de patch et le temps de l'équipe (39,99 €). Le cadre Duo (1 patch) affiche également deux participants mais avec un seul emplacement de patch (34,99 €).",
+    a: "Le cadre Solo met en avant une performance individuelle (39,99 €). Le cadre Duo affiche deux participants avec deux emplacements de patch et le temps de l'équipe (44,99 €). Le cadre Duo (1 patch) affiche également deux participants mais avec un seul emplacement de patch (39,99 €).",
   },
   {
     q: "Quelles sont les dimensions du cadre ?",

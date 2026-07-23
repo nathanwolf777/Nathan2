@@ -26,7 +26,7 @@ export default function CGVPage() {
         },
         {
           h: "4. Prix",
-          p: "Le cadre Solo est vendu 34,99 €, le cadre Duo 39,99 € et le cadre Duo (1 patch) 34,99 €, toutes taxes comprises. La livraison en point relais est offerte ; la livraison à domicile est facturée 2 € en supplément. Les prix sont indiqués en euros. TrophyFrames se réserve le droit de modifier ses prix à tout moment ; le prix appliqué est celui en vigueur au moment de la validation de la commande.",
+          p: "Le cadre Solo est vendu 39,99 €, le cadre Duo 44,99 € et le cadre Duo (1 patch) 39,99 €, toutes taxes comprises. La livraison en point relais est offerte ; la livraison à domicile est facturée 2 € en supplément. Les prix sont indiqués en euros. TrophyFrames se réserve le droit de modifier ses prix à tout moment ; le prix appliqué est celui en vigueur au moment de la validation de la commande.",
         },
         {
           h: "5. Commande et paiement",

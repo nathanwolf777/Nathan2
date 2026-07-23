@@ -39,9 +39,9 @@ export function totalFor(type: FrameType, method: ShippingMethod): number {
 export const COUNTRY_CODE = "FR";
 export const COUNTRY_LABEL = "FRA";
 
-export const PRICE_SOLO = 34.99;
-export const PRICE_DUO = 39.99;
-export const PRICE_DUO_SOLO = 34.99;
+export const PRICE_SOLO = 39.99;
+export const PRICE_DUO = 44.99;
+export const PRICE_DUO_SOLO = 39.99;
 
 // Prix selon le modèle. Le Duo et le Duo (1 patch) sont au même prix.
 export function priceFor(type: FrameType): number {

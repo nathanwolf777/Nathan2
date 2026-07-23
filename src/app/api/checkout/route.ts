@@ -24,6 +24,8 @@ export async function POST(req: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+      // Affiche le champ "code promo" sur la page de paiement Stripe.
+      allow_promotion_codes: true,
       line_items: [
         {
           price_data: {
