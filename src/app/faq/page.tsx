@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Quelle est la différence entre le cadre Solo et Duo ?",
-    a: "Le cadre Solo met en avant une performance individuelle (29,99 €). Le cadre Duo affiche deux participants et le temps de l'équipe (35,99 €) — idéal pour les compétitions par binôme.",
+    a: "Le cadre Solo met en avant une performance individuelle (34,99 €). Le cadre Duo affiche deux participants et le temps de l'équipe (49,99 €) — idéal pour les compétitions par binôme.",
   },
   {
     q: "Quelles sont les dimensions du cadre ?",

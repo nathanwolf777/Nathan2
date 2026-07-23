@@ -26,7 +26,7 @@ export default function CGVPage() {
         },
         {
           h: "4. Prix",
-          p: "Le cadre Solo est vendu 29,99 € et le cadre Duo 35,99 €, toutes taxes comprises, livraison incluse. Les prix sont indiqués en euros. TrophyFrames se réserve le droit de modifier ses prix à tout moment ; le prix appliqué est celui en vigueur au moment de la validation de la commande.",
+          p: "Le cadre Solo est vendu 34,99 € et les cadres Duo 49,99 €, toutes taxes comprises, livraison incluse. Les prix sont indiqués en euros. TrophyFrames se réserve le droit de modifier ses prix à tout moment ; le prix appliqué est celui en vigueur au moment de la validation de la commande.",
         },
         {
           h: "5. Commande et paiement",

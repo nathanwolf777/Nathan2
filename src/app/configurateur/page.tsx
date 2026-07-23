@@ -5,7 +5,7 @@ import { FrameType } from "@/data/product";
 export const metadata: Metadata = {
   title: "Configurateur",
   description:
-    "Personnalisez votre cadre souvenir HYROX : temps, nom, ville, année et vos classements. Prévisualisation en temps réel. 29,99 € — livraison gratuite.",
+    "Personnalisez votre cadre souvenir : temps, nom, pays et vos classements. Prévisualisation en temps réel. À partir de 34,99 € — livraison gratuite.",
 };
 
 export default function Page({

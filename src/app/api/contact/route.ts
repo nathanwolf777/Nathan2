@@ -41,18 +41,19 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "TrophyFrames <onboarding@resend.dev>",
+        from: process.env.RESEND_FROM || "TrophyFrames <onboarding@resend.dev>",
         to: [to],
-        reply_to: email,
+        replyTo: email,
         subject: `✉️ Message de ${name} — TrophyFrames`,
         html,
       }),
     });
 
     if (!res.ok) {
-      console.error("Resend contact erreur:", await res.text());
+      const detail = await res.text();
+      console.error("Resend contact erreur:", detail);
       return NextResponse.json(
-        { error: "Envoi impossible pour le moment." },
+        { error: "Envoi impossible pour le moment.", detail },
         { status: 500 }
       );
     }

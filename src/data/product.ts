@@ -18,8 +18,8 @@ export interface FrameConfig {
 export const COUNTRY_CODE = "FR";
 export const COUNTRY_LABEL = "FRA";
 
-export const PRICE_SOLO = 29.99;
-export const PRICE_DUO = 35.99;
+export const PRICE_SOLO = 34.99;
+export const PRICE_DUO = 49.99;
 
 // Prix selon le modèle. Le Duo et le Duo (1 patch) sont au même prix.
 export function priceFor(type: FrameType): number {

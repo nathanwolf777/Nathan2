@@ -7,6 +7,8 @@ import Reveal from "@/components/Reveal";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import ReviewForm from "@/components/ReviewForm";
 import FrameEnterButton from "@/components/FrameEnterButton";
+import HeroMedia from "@/components/HeroMedia";
+import AmbientBackground from "@/components/AmbientBackground";
 import { PRICE_SOLO } from "@/data/product";
 
 const features = [
@@ -68,6 +70,7 @@ const steps = [
 export default function Home() {
   return (
     <div className="relative overflow-x-clip">
+      <AmbientBackground />
       {/* ambient glow */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[min(800px,100vw)] h-[500px] sm:h-[800px] rounded-full bg-accent/5 blur-[120px]" />
 
@@ -131,49 +134,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
-          >
-            <div className="absolute -inset-6 bg-accent/10 blur-3xl rounded-full" />
-
-            {/* gentle continuous float */}
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              whileHover={{ scale: 1.03 }}
-              className="relative rounded-2xl overflow-hidden shadow-2xl"
-            >
-              <Image
-                src="/cadre-hero.jpg"
-                alt="Cadre souvenir TrophyFrames personnalisé pour athlètes — modèle Duo"
-                width={1000}
-                height={1333}
-                priority
-                className="relative w-full h-auto"
-              />
-
-              {/* light reflection sweeping across the glass, in a loop */}
-              <motion.div
-                aria-hidden
-                className="pointer-events-none absolute inset-0"
-                initial={{ x: "-120%" }}
-                animate={{ x: "120%" }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  repeatDelay: 3.5,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  background:
-                    "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)",
-                }}
-              />
-            </motion.div>
-          </motion.div>
+          <HeroMedia />
         </div>
       </section>
 
@@ -264,58 +225,6 @@ export default function Home() {
                 </div>
               </Reveal>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* GALLERY */}
-      <section className="px-5 py-20">
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-center mb-4">
-              Chaque cadre, une <span className="gold-text">pièce unique</span>.
-            </h2>
-            <p className="text-mist text-center max-w-xl mx-auto mb-12">
-              Un objet pensé pour être exposé, fabriqué avec soin.
-            </p>
-          </Reveal>
-          <div className="grid md:grid-cols-3 gap-5">
-            <Reveal>
-              <div className="rounded-2xl overflow-hidden aspect-[4/5] relative group">
-                <Image
-                  src="/produit-1.jpg"
-                  alt="Cadre TrophyFrames en situation"
-                  width={1200}
-                  height={1500}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              {/* video placeholder */}
-              <div className="rounded-2xl overflow-hidden aspect-[4/5] relative border border-white/[0.07] bg-white/[0.02] flex flex-col items-center justify-center text-center px-6">
-                <div className="w-16 h-16 rounded-full border border-accent/40 flex items-center justify-center mb-4">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="#f2c53d">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-                <div className="text-sm text-pearl font-medium">Vidéo à venir</div>
-                <div className="text-xs text-mist mt-1">
-                  Un aperçu animé du cadre arrive bientôt.
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <div className="rounded-2xl overflow-hidden aspect-[4/5] relative group">
-                <Image
-                  src="/produit-2.jpg"
-                  alt="Cadre TrophyFrames premium"
-                  width={1200}
-                  height={1500}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </Reveal>
           </div>
         </div>
       </section>
