@@ -33,6 +33,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
 
   const isDuo = config.type === "duo";
   const isDuoSolo = config.type === "duo-solo";
+  const isHexa = config.type === "hexa";
   const twoNames = isDuo || isDuoSolo;
   const soloName = `${config.firstName || "Prénom"} ${config.lastName || "Nom"}`;
   const p1Name = `${config.p1FirstName || "Prénom 1"} ${config.p1LastName || "Nom 1"}`;
@@ -57,9 +58,12 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
           className="relative shadow-2xl"
           style={{
             width: "min(90vw, 500px)",
-            aspectRatio: "1.28/1",
+            aspectRatio: isHexa ? "1.15/1" : "1.28/1",
             borderRadius: "4px",
             padding: "30px",
+            clipPath: isHexa
+              ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+              : undefined,
             background:
               "repeating-linear-gradient(90deg,#0a0a0a 0px,#161616 1px,#0c0c0c 2px,#101010 3px,#080808 4px)",
             boxShadow:
@@ -82,6 +86,9 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
             style={{
               inset: "18px",
               borderRadius: "3px",
+              clipPath: isHexa
+                ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+                : undefined,
               boxShadow:
                 "0 6px 14px 2px rgba(0,0,0,0.85), inset 0 2px 6px rgba(0,0,0,0.9)",
               background: "#0b0b0c",
@@ -93,6 +100,9 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
             className="relative w-full h-full overflow-hidden"
             style={{
               borderRadius: "2px",
+              clipPath: isHexa
+                ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+                : undefined,
               background:
                 "radial-gradient(135% 130% at 50% 42%,#1c1c1e 0%,#0b0b0c 78%)",
               boxShadow: "inset 0 0 45px rgba(0,0,0,0.9)",
@@ -123,6 +133,23 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
                     </div>
                   )}
                 </>
+              ) : isHexa ? (
+                /* HEXA: #AG left — patch — #OV right (rankings optional) */
+                config.showRanking ? (
+                  <div className="flex items-center justify-center gap-[3%] w-full mt-[3%]">
+                    <div className="w-[18%] shrink-0 flex justify-center">
+                      <RankBadge label="#AG" value={config.rankingAge} />
+                    </div>
+                    <VelcroPatch width="40%" />
+                    <div className="w-[18%] shrink-0 flex justify-center">
+                      <RankBadge label="#OV" value={config.rankingOverall} />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center w-full mt-[3%]">
+                    <VelcroPatch width="40%" />
+                  </div>
+                )
               ) : config.showRanking ? (
                 /* MIDDLE ROW: #OV — patch — #AG (solo & duo-solo: 1 patch) */
                 <div className="flex items-center justify-center gap-[3%] w-full mt-[4%]">

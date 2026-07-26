@@ -1,4 +1,4 @@
-export type FrameType = "solo" | "duo" | "duo-solo";
+export type FrameType = "solo" | "duo" | "duo-solo" | "hexa";
 
 export interface FrameConfig {
   type: FrameType;
@@ -42,11 +42,13 @@ export const COUNTRY_LABEL = "FRA";
 export const PRICE_SOLO = 39.99;
 export const PRICE_DUO = 44.99;
 export const PRICE_DUO_SOLO = 39.99;
+export const PRICE_HEXA = 21.99;
 
 // Prix selon le modèle. Le Duo et le Duo (1 patch) sont au même prix.
 export function priceFor(type: FrameType): number {
   if (type === "duo") return PRICE_DUO;
   if (type === "duo-solo") return PRICE_DUO_SOLO;
+  if (type === "hexa") return PRICE_HEXA;
   return PRICE_SOLO;
 }
 
@@ -54,6 +56,7 @@ export function priceFor(type: FrameType): number {
 export function labelFor(type: FrameType): string {
   if (type === "duo") return "Duo";
   if (type === "duo-solo") return "Duo (1 patch)";
+  if (type === "hexa") return "Hexagone";
   return "Solo";
 }
 

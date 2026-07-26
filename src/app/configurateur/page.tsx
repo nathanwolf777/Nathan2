@@ -13,6 +13,11 @@ export default function Page({
 }: {
   searchParams: { type?: string };
 }) {
-  const initialType: FrameType = searchParams.type === "duo" ? "duo" : "solo";
+  const valid: FrameType[] = ["solo", "duo", "duo-solo", "hexa"];
+  const initialType: FrameType = valid.includes(
+    searchParams.type as FrameType
+  )
+    ? (searchParams.type as FrameType)
+    : "solo";
   return <Configurator initialType={initialType} />;
 }

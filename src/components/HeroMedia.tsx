@@ -86,8 +86,8 @@ export default function HeroMedia() {
             delay={0}
           />
           <PhotoTile
-            src="/produit-2.jpg"
-            alt="Cadre souvenir TrophyFrames personnalisé avec patch de compétition"
+            src="/produit-hexa.jpg"
+            alt="Cadre souvenir hexagonal TrophyFrames personnalisé"
             delay={1.5}
           />
         </div>

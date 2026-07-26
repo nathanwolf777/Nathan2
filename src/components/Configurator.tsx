@@ -98,12 +98,12 @@ export default function Configurator({
             className="order-2 lg:order-1"
           >
             {/* type switch */}
-            <div className="glass rounded-2xl p-1.5 flex mb-6">
-              {(["solo", "duo", "duo-solo"] as FrameType[]).map((t) => (
+            <div className="glass rounded-2xl p-1.5 grid grid-cols-2 sm:grid-cols-4 gap-1 mb-6">
+              {(["solo", "duo", "duo-solo", "hexa"] as FrameType[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setType(t)}
-                  className="relative flex-1 py-2.5 rounded-xl text-[13px] font-medium transition-colors"
+                  className="relative py-2.5 rounded-xl text-[13px] font-medium transition-colors"
                 >
                   {config.type === t && (
                     <motion.div
