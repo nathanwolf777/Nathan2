@@ -11,7 +11,9 @@ import {
 
 export async function POST(req: NextRequest) {
   try {
-    const { config } = (await req.json()) as { config: FrameConfig };
+    const body = (await req.json()) as { config: FrameConfig; quantity?: number };
+    const config = body.config;
+    const quantity = Math.min(20, Math.max(1, Math.floor(body.quantity || 1)));
 
     const baseUrl =
       process.env.NEXT_PUBLIC_BASE_URL ||
@@ -42,7 +44,7 @@ export async function POST(req: NextRequest) {
             },
             unit_amount: Math.round(priceFor(config.type) * 100),
           },
-          quantity: 1,
+          quantity,
         },
         // Shipping as its own line so the customer sees the breakdown.
         ...(shippingCost(config.shipping) > 0
@@ -68,6 +70,7 @@ export async function POST(req: NextRequest) {
         frameConfig: JSON.stringify(compact).slice(0, 490),
         livraison: shippingLabel(config.shipping),
         patch_nfc: config.nfc ? "Oui" : "Non",
+        quantite: String(quantity),
       },
       success_url: `${baseUrl}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/configurateur`,

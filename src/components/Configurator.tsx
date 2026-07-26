@@ -10,7 +10,6 @@ import {
   COUNTRY_LABEL,
   flagEmoji,
   priceFor,
-  totalFor,
   shippingCost,
   shippingLabel,
   SHIPPING_HOME_SURCHARGE,
@@ -30,6 +29,7 @@ export default function Configurator({
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
 
   function update<K extends keyof FrameConfig>(key: K, value: FrameConfig[K]) {
     setConfig((c) => ({ ...c, [key]: value }));
@@ -54,7 +54,7 @@ export default function Configurator({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ config }),
+        body: JSON.stringify({ config, quantity }),
       });
       const data = await res.json();
       if (data.url) {
@@ -362,10 +362,58 @@ export default function Configurator({
 
             {/* order box */}
             <div className="glass rounded-2xl p-6 mt-6">
+              {/* order reminder */}
+              <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-3 mb-4">
+                <div className="text-[11px] uppercase tracking-wider text-mist mb-1">
+                  Votre cadre
+                </div>
+                <div className="text-sm text-pearl font-medium">
+                  Cadre {labelFor(config.type)}
+                </div>
+                <div className="text-xs text-mist mt-0.5">
+                  {isDuo
+                    ? `${config.p1FirstName || "—"} & ${
+                        config.p2FirstName || "—"
+                      }`
+                    : config.firstName || "—"}
+                  {" · "}
+                  {config.time || "--:--:--"}
+                </div>
+              </div>
+
+              {/* quantity */}
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm text-mist">Quantité</span>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="w-8 h-8 rounded-full border border-white/15 text-pearl flex items-center justify-center hover:border-white/40 transition-colors"
+                    aria-label="Diminuer la quantité"
+                  >
+                    −
+                  </button>
+                  <span className="w-6 text-center text-pearl font-medium">
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.min(20, q + 1))}
+                    className="w-8 h-8 rounded-full border border-white/15 text-pearl flex items-center justify-center hover:border-white/40 transition-colors"
+                    aria-label="Augmenter la quantité"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
               <div className="flex items-baseline justify-between text-sm text-mist">
-                <span>Cadre {labelFor(config.type)}</span>
                 <span>
-                  {priceFor(config.type).toLocaleString("fr-FR", {
+                  Cadre {labelFor(config.type)}
+                  {quantity > 1 ? ` × ${quantity}` : ""}
+                </span>
+                <span>
+                  {(priceFor(config.type) * quantity).toLocaleString("fr-FR", {
                     style: "currency",
                     currency: "EUR",
                   })}
@@ -385,10 +433,13 @@ export default function Configurator({
               <div className="flex items-baseline justify-between mt-3 pt-3 border-t border-white/[0.08]">
                 <span className="text-sm text-pearl">Total</span>
                 <span className="text-2xl font-semibold">
-                  {totalFor(config.type, config.shipping).toLocaleString(
-                    "fr-FR",
-                    { style: "currency", currency: "EUR" }
-                  )}
+                  {(
+                    priceFor(config.type) * quantity +
+                    shippingCost(config.shipping)
+                  ).toLocaleString("fr-FR", {
+                    style: "currency",
+                    currency: "EUR",
+                  })}
                 </span>
               </div>
               <div className="text-xs text-mist mb-5 mt-1">
