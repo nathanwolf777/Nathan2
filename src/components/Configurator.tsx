@@ -20,7 +20,7 @@ import {
 } from "@/data/product";
 
 export default function Configurator({
-  initialType = "solo",
+  initialType = "hexa",
 }: {
   initialType?: FrameType;
 }) {
@@ -99,7 +99,7 @@ export default function Configurator({
           >
             {/* type switch */}
             <div className="glass rounded-2xl p-1.5 grid grid-cols-2 sm:grid-cols-4 gap-1 mb-6">
-              {(["solo", "hexa", "duo", "duo-solo"] as FrameType[]).map((t) => (
+              {(["hexa", "solo", "duo", "duo-solo"] as FrameType[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setType(t)}

@@ -60,11 +60,11 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
           className="relative shadow-2xl"
           style={{
             width: "min(90vw, 500px)",
-            aspectRatio: isHexa ? "0.87/1" : "1.28/1",
+            aspectRatio: isHexa ? "1.15/1" : "1.28/1",
             borderRadius: "4px",
             padding: "30px",
             clipPath: isHexa
-              ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+              ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
               : undefined,
             background:
               "repeating-linear-gradient(90deg,#0a0a0a 0px,#161616 1px,#0c0c0c 2px,#101010 3px,#080808 4px)",
@@ -89,7 +89,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
               inset: "18px",
               borderRadius: "3px",
               clipPath: isHexa
-                ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+                ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
                 : undefined,
               boxShadow:
                 "0 6px 14px 2px rgba(0,0,0,0.85), inset 0 2px 6px rgba(0,0,0,0.9)",
@@ -103,7 +103,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
             style={{
               borderRadius: "2px",
               clipPath: isHexa
-                ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+                ? "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"
                 : undefined,
               background:
                 "radial-gradient(135% 130% at 50% 42%,#1c1c1e 0%,#0b0b0c 78%)",
@@ -114,7 +114,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
             <div
               className={`relative z-10 w-full h-full flex flex-col items-center px-[5%] ${
                 isHexa
-                  ? "justify-center gap-[3%] pt-[20%] pb-[16%]"
+                  ? "justify-center gap-[2%] pt-[10%] pb-[8%]"
                   : "justify-center pt-[9%] pb-[6%]"
               }`}
             >
@@ -144,7 +144,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
               ) : isHexa ? (
                 /* HEXA: #AG left — patch — #OV right (rankings optional) */
                 config.showRanking ? (
-                  <div className="flex items-center justify-center gap-[3%] w-full mt-[8%]">
+                  <div className="flex items-center justify-center gap-[3%] w-full mt-[4%]">
                     <div className="w-[18%] shrink-0 flex justify-center">
                       <RankBadge label="#AG" value={config.rankingAge} />
                     </div>
@@ -154,7 +154,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center w-full mt-[8%]">
+                  <div className="flex items-center justify-center w-full mt-[4%]">
                     <VelcroPatch width="40%" />
                   </div>
                 )
@@ -186,7 +186,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
                 <>
                   <div
                     className={`gold3d font-extrabold uppercase leading-tight text-center px-2 ${
-                      isHexa ? "mt-[9%]" : "mt-[5%]"
+                      isHexa ? "mt-[5%]" : "mt-[5%]"
                     }`}
                     style={{ fontSize: "clamp(16px,5vw,30px)" }}
                   >

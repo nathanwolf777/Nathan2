@@ -18,6 +18,6 @@ export default function Page({
     searchParams.type as FrameType
   )
     ? (searchParams.type as FrameType)
-    : "solo";
+    : "hexa";
   return <Configurator initialType={initialType} />;
 }
