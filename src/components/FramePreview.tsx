@@ -111,7 +111,13 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
             }}
           >
             {/* ===== CONTENT ===== */}
-            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-[5%] pt-[9%] pb-[6%]">
+            <div
+              className={`relative z-10 w-full h-full flex flex-col items-center px-[5%] ${
+                isHexa
+                  ? "justify-center gap-[3%] pt-[20%] pb-[16%]"
+                  : "justify-center pt-[9%] pb-[6%]"
+              }`}
+            >
               {/* TIME */}
               <div
                 className="gold3d font-extrabold tracking-tight leading-none"
@@ -138,7 +144,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
               ) : isHexa ? (
                 /* HEXA: #AG left — patch — #OV right (rankings optional) */
                 config.showRanking ? (
-                  <div className="flex items-center justify-center gap-[3%] w-full mt-[3%]">
+                  <div className="flex items-center justify-center gap-[3%] w-full mt-[8%]">
                     <div className="w-[18%] shrink-0 flex justify-center">
                       <RankBadge label="#AG" value={config.rankingAge} />
                     </div>
@@ -148,7 +154,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center w-full mt-[3%]">
+                  <div className="flex items-center justify-center w-full mt-[8%]">
                     <VelcroPatch width="40%" />
                   </div>
                 )
@@ -179,7 +185,9 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
               ) : (
                 <>
                   <div
-                    className="gold3d font-extrabold uppercase leading-tight text-center mt-[5%] px-2"
+                    className={`gold3d font-extrabold uppercase leading-tight text-center px-2 ${
+                      isHexa ? "mt-[9%]" : "mt-[5%]"
+                    }`}
                     style={{ fontSize: "clamp(16px,5vw,30px)" }}
                   >
                     {soloName}

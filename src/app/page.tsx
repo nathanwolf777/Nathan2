@@ -8,7 +8,7 @@ import ReviewsCarousel from "@/components/ReviewsCarousel";
 import ReviewForm from "@/components/ReviewForm";
 import FrameEnterButton from "@/components/FrameEnterButton";
 import HeroMedia from "@/components/HeroMedia";
-import { PRICE_SOLO } from "@/data/product";
+import { PRICE_HEXA } from "@/data/product";
 
 const features = [
   {
@@ -122,7 +122,7 @@ export default function Home() {
               <div className="text-sm text-mist">
                 <span className="text-pearl font-semibold text-lg">
                   À partir de{" "}
-                  {PRICE_SOLO.toLocaleString("fr-FR", {
+                  {PRICE_HEXA.toLocaleString("fr-FR", {
                     style: "currency",
                     currency: "EUR",
                   })}
@@ -259,7 +259,7 @@ export default function Home() {
                 Prêt à immortaliser votre exploit ?
               </h2>
               <p className="text-mist mb-8 max-w-md mx-auto">
-                Créez votre cadre en quelques minutes. À partir de {PRICE_SOLO}€
+                Créez votre cadre en quelques minutes. À partir de {PRICE_HEXA}€
                 · livraison offerte en point relais.
               </p>
               <FrameEnterButton
