@@ -35,7 +35,9 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
   const isDuoSolo = config.type === "duo-solo";
   const isHexa = config.type === "hexa";
   const twoNames = isDuo || isDuoSolo;
-  const soloName = `${config.firstName || "Prénom"} ${config.lastName || "Nom"}`;
+  const soloName = isHexa
+    ? config.firstName || "Prénom"
+    : `${config.firstName || "Prénom"} ${config.lastName || "Nom"}`;
   const p1Name = `${config.p1FirstName || "Prénom 1"} ${config.p1LastName || "Nom 1"}`;
   const p2Name = `${config.p2FirstName || "Prénom 2"} ${config.p2LastName || "Nom 2"}`;
 
@@ -58,7 +60,7 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
           className="relative shadow-2xl"
           style={{
             width: "min(90vw, 500px)",
-            aspectRatio: isHexa ? "1.15/1" : "1.28/1",
+            aspectRatio: isHexa ? "0.87/1" : "1.28/1",
             borderRadius: "4px",
             padding: "30px",
             clipPath: isHexa

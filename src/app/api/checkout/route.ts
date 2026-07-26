@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         frameConfig: JSON.stringify(compact).slice(0, 490),
         livraison: shippingLabel(config.shipping),
+        patch_nfc: config.nfc ? "Oui" : "Non",
       },
       success_url: `${baseUrl}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/configurateur`,

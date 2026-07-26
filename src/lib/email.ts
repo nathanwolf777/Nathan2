@@ -29,6 +29,7 @@ export async function sendOrderEmail(order: Order): Promise<void> {
     ["Montant", `${order.amount.toFixed(2)} €`],
     ["— Livraison —", ""],
     ["Mode choisi", shippingLabel(c.shipping)],
+    ["Patch NFC", c.nfc ? "OUI — à paramétrer au nom inscrit" : "Non"],
     ["Nom", order.shipping.name],
     ["Email client", order.shipping.email],
     ["Adresse", order.shipping.address],

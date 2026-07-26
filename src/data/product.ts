@@ -13,6 +13,7 @@ export interface FrameConfig {
   rankingAge: string; // #AG — classement catégorie d'âge
   showRanking: boolean; // afficher ou non les classements #OV / #AG
   shipping: ShippingMethod; // mode de livraison choisi
+  nfc: boolean; // patch NFC paramétré avec le nom du cadre
 }
 
 // Modes de livraison. Le point relais est offert, le domicile est majoré.
@@ -75,6 +76,11 @@ export const PRICE_EUR = PRICE_SOLO;
 
 // Dimensions physiques du cadre.
 export const FRAME_DIMENSIONS = "27 × 21 × 1,4 cm";
+export const FRAME_DIMENSIONS_HEXA = "17 × 20 × 1 cm";
+
+export function dimensionsFor(type: FrameType): string {
+  return type === "hexa" ? FRAME_DIMENSIONS_HEXA : FRAME_DIMENSIONS;
+}
 
 export const defaultConfig: FrameConfig = {
   type: "solo",
@@ -89,6 +95,7 @@ export const defaultConfig: FrameConfig = {
   rankingAge: "128",
   showRanking: true,
   shipping: "relay",
+  nfc: false,
 };
 
 export function flagEmoji(code: string): string {

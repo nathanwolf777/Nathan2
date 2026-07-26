@@ -16,7 +16,7 @@ import {
   SHIPPING_HOME_SURCHARGE,
   labelFor,
   isDuoType,
-  FRAME_DIMENSIONS,
+  dimensionsFor,
 } from "@/data/product";
 
 export default function Configurator({
@@ -99,7 +99,7 @@ export default function Configurator({
           >
             {/* type switch */}
             <div className="glass rounded-2xl p-1.5 grid grid-cols-2 sm:grid-cols-4 gap-1 mb-6">
-              {(["solo", "duo", "duo-solo", "hexa"] as FrameType[]).map((t) => (
+              {(["solo", "hexa", "duo", "duo-solo"] as FrameType[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setType(t)}
@@ -188,7 +188,9 @@ export default function Configurator({
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="grid grid-cols-2 gap-4 overflow-hidden"
+                    className={`grid gap-4 overflow-hidden ${
+                      config.type === "hexa" ? "grid-cols-1" : "grid-cols-2"
+                    }`}
                   >
                     <Field label="Prénom">
                       <input
@@ -198,14 +200,16 @@ export default function Configurator({
                         placeholder="Pierre"
                       />
                     </Field>
-                    <Field label="Nom">
-                      <input
-                        className="field-input"
-                        value={config.lastName}
-                        onChange={(e) => update("lastName", e.target.value)}
-                        placeholder="Anthony"
-                      />
-                    </Field>
+                    {config.type !== "hexa" && (
+                      <Field label="Nom">
+                        <input
+                          className="field-input"
+                          value={config.lastName}
+                          onChange={(e) => update("lastName", e.target.value)}
+                          placeholder="Anthony"
+                        />
+                      </Field>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -272,7 +276,7 @@ export default function Configurator({
               <Field label="Dimensions du cadre">
                 <div className="field-input flex items-center gap-2 opacity-80 cursor-not-allowed">
                   <span className="text-lg">📐</span>
-                  <span>{FRAME_DIMENSIONS}</span>
+                  <span>{dimensionsFor(config.type)}</span>
                 </div>
               </Field>
 
@@ -334,6 +338,25 @@ export default function Configurator({
                 <p className="text-[11px] text-mist/70 leading-relaxed mt-2">
                   Nous livrons uniquement en France pour le moment.
                 </p>
+              </div>
+
+              {/* NFC patch option */}
+              <div className="border-t border-white/[0.06] pt-5">
+                <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={config.nfc}
+                    onChange={(e) => update("nfc", e.target.checked)}
+                    className="w-4 h-4 mt-0.5 rounded accent-accent cursor-pointer"
+                  />
+                  <span>
+                    <span className="text-sm text-pearl">Patch NFC</span>
+                    <span className="block text-[11px] text-mist leading-relaxed mt-0.5">
+                      Nous paramétrons le patch NFC avec le nom inscrit sur le
+                      cadre.
+                    </span>
+                  </span>
+                </label>
               </div>
             </div>
 
