@@ -8,7 +8,12 @@ import ReviewsCarousel from "@/components/ReviewsCarousel";
 import ReviewForm from "@/components/ReviewForm";
 import FrameEnterButton from "@/components/FrameEnterButton";
 import HeroMedia from "@/components/HeroMedia";
-import { PRICE_HEXA } from "@/data/product";
+import {
+  PRICE_HEXA,
+  PRICE_SOLO,
+  PRICE_DUO,
+  PRICE_DUO_SOLO,
+} from "@/data/product";
 
 const features = [
   {
@@ -136,6 +141,69 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PRODUCT CARDS */}
+      <section className="px-5 pt-4 pb-12">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            {
+              label: "Hexagone",
+              price: PRICE_HEXA,
+              img: "/produit-hexa.jpg",
+              href: "/configurateur?type=hexa",
+            },
+            {
+              label: "Solo",
+              price: PRICE_SOLO,
+              img: "/cadre-hero.jpg",
+              href: "/configurateur?type=solo",
+            },
+            {
+              label: "Duo",
+              price: PRICE_DUO,
+              img: "/produit-2.jpg",
+              href: "/configurateur?type=duo",
+            },
+            {
+              label: "Duo (1 patch)",
+              price: PRICE_DUO_SOLO,
+              img: "/produit-1.jpg",
+              href: "/configurateur?type=duo-solo",
+            },
+          ].map((p, i) => (
+            <Reveal key={p.label} delay={i * 0.08}>
+              <div className="group rounded-2xl border border-white/[0.07] bg-white/[0.02] overflow-hidden hover:border-accent/25 transition-colors duration-500 flex flex-col h-full">
+                <div className="relative aspect-square overflow-hidden bg-smoke/40">
+                  <Image
+                    src={p.img}
+                    alt={`Cadre ${p.label}`}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="p-4 flex flex-col flex-1">
+                  <div className="text-sm font-medium text-pearl">
+                    Cadre {p.label}
+                  </div>
+                  <div className="text-lg font-semibold gold-text mt-0.5">
+                    {p.price.toLocaleString("fr-FR", {
+                      style: "currency",
+                      currency: "EUR",
+                    })}
+                  </div>
+                  <FrameEnterButton
+                    href={p.href}
+                    className="mt-3 w-full py-2.5 rounded-full bg-pearl text-ink text-sm font-medium hover:bg-white transition-colors text-center"
+                  >
+                    Commander
+                  </FrameEnterButton>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* FEATURES */}
       <section className="px-5 py-20">
         <div className="max-w-6xl mx-auto">
@@ -167,41 +235,6 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* MODELS */}
-      <section className="px-5 py-20">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
-          {[
-            {
-              t: "Cadre Solo",
-              d: "Votre performance individuelle sublimée. Temps, nom, pays et vos classements #OV / #AG.",
-              href: "/configurateur?type=solo",
-            },
-            {
-              t: "Cadre Duo",
-              d: "Pour les performances en équipe. Deux athlètes, un exploit, un cadre.",
-              href: "/configurateur?type=duo",
-            },
-          ].map((m, i) => (
-            <Reveal key={m.t} delay={i * 0.1}>
-              <div className="relative overflow-hidden rounded-3xl glass p-10 h-full group">
-                <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-accent/5 blur-3xl group-hover:bg-accent/10 transition-colors duration-700" />
-                <span className="text-xs uppercase tracking-widest text-accent">
-                  Modèle
-                </span>
-                <h3 className="text-3xl font-semibold mt-2 mb-3">{m.t}</h3>
-                <p className="text-mist leading-relaxed max-w-sm">{m.d}</p>
-                <FrameEnterButton
-                  href={m.href}
-                  className="inline-flex items-center gap-2 mt-6 text-sm text-pearl hover:gap-3 transition-all"
-                >
-                  Personnaliser →
-                </FrameEnterButton>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </section>
 

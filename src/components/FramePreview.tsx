@@ -60,7 +60,12 @@ export default function FramePreview({ config }: { config: FrameConfig }) {
           className="relative shadow-2xl"
           style={{
             width: "min(90vw, 500px)",
-            aspectRatio: isHexa ? "1.15/1" : "1.28/1",
+            // Explicit height (width × ratio) instead of aspect-ratio, which
+            // some mobile Safari versions miscompute, stretching the frame.
+            height: isHexa
+              ? "calc(min(90vw, 500px) / 1.15)"
+              : "calc(min(90vw, 500px) / 1.28)",
+            boxSizing: "border-box",
             borderRadius: "4px",
             padding: "30px",
             clipPath: isHexa
