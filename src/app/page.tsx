@@ -134,6 +134,10 @@ export default function Home() {
                 </span>
                 {" · "}Livraison offerte en point relais
               </div>
+              <div className="mt-2 inline-flex items-center gap-2 text-xs text-mist">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                Expédition en moins de 5 jours ouvrés
+              </div>
             </motion.div>
           </div>
 
@@ -143,30 +147,41 @@ export default function Home() {
 
       {/* PRODUCT CARDS */}
       <section className="px-5 pt-4 pb-12">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="max-w-6xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-10">
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+                Chaque exploit mérite son <span className="gold-text">cadre</span>.
+              </h2>
+              <p className="text-mist mt-3 max-w-xl mx-auto">
+                Trouvez le format qui raconte le mieux votre histoire.
+              </p>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             {
               label: "Hexagone",
               price: PRICE_HEXA,
-              img: "/produit-hexa.jpg",
+              img: "/carte-hexagone.jpg",
               href: "/configurateur?type=hexa",
             },
             {
               label: "Solo",
               price: PRICE_SOLO,
-              img: "/cadre-hero.jpg",
+              img: "/carte-solo.jpg",
               href: "/configurateur?type=solo",
             },
             {
               label: "Duo",
               price: PRICE_DUO,
-              img: "/produit-2.jpg",
+              img: "/carte-duo.jpg",
               href: "/configurateur?type=duo",
             },
             {
               label: "Duo (1 patch)",
               price: PRICE_DUO_SOLO,
-              img: "/produit-1.jpg",
+              img: "/carte-duo-1patch.jpg",
               href: "/configurateur?type=duo-solo",
             },
           ].map((p, i) => (
@@ -201,6 +216,7 @@ export default function Home() {
               </div>
             </Reveal>
           ))}
+          </div>
         </div>
       </section>
 

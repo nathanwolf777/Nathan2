@@ -81,12 +81,12 @@ export default function HeroMedia() {
         {/* RIGHT — two photos stacked */}
         <div className="col-span-2 grid grid-rows-2 gap-3">
           <PhotoTile
-            src="/cadre-hero.jpg"
+            src="/media-photo-1.jpg"
             alt="Cadre souvenir TrophyFrames — modèle Duo"
             delay={0}
           />
           <PhotoTile
-            src="/produit-hexa.jpg"
+            src="/media-photo-2.jpg"
             alt="Cadre souvenir hexagonal TrophyFrames personnalisé"
             delay={1.5}
           />

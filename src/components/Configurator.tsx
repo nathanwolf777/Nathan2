@@ -443,7 +443,7 @@ export default function Configurator({
                 </span>
               </div>
               <div className="text-xs text-mist mb-5 mt-1">
-                Fabriqué à la demande
+                Fabriqué à la demande · Expédié en moins de 5 jours ouvrés
               </div>
 
               {error && (
