@@ -17,6 +17,7 @@ import {
   isDuoType,
   dimensionsFor,
 } from "@/data/product";
+import { useCart } from "@/lib/cart";
 
 export default function Configurator({
   initialType = "hexa",
@@ -30,6 +31,8 @@ export default function Configurator({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+  const { add } = useCart();
 
   function update<K extends keyof FrameConfig>(key: K, value: FrameConfig[K]) {
     setConfig((c) => ({ ...c, [key]: value }));
@@ -452,6 +455,18 @@ export default function Configurator({
                 </div>
               )}
 
+              <button
+                type="button"
+                onClick={() => {
+                  add({ ...config }, quantity);
+                  setAdded(true);
+                  setTimeout(() => setAdded(false), 2000);
+                }}
+                className="w-full py-4 rounded-full border border-white/20 text-pearl font-medium hover:border-white/40 hover:bg-white/[0.03] transition-colors mb-3 flex items-center justify-center gap-2"
+              >
+                {added ? "✓ Ajouté au panier" : "Ajouter au panier"}
+              </button>
+
               <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={checkout}
@@ -464,7 +479,7 @@ export default function Configurator({
                     Redirection…
                   </>
                 ) : (
-                  "Commander mon cadre"
+                  "Commander directement"
                 )}
               </motion.button>
               <p className="text-center text-[11px] text-mist mt-3">

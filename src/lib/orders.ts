@@ -2,11 +2,22 @@ import fs from "fs";
 import path from "path";
 import { FrameConfig } from "@/data/product";
 
+export interface OrderItemSummary {
+  type: string;
+  quantity: number;
+  names: string;
+  time: string;
+  rankingOverall: string;
+  rankingAge: string;
+  nfc: boolean;
+}
+
 export interface Order {
   id: string;
   createdAt: string;
   status: "paid" | "shipped";
   config: FrameConfig;
+  items?: OrderItemSummary[]; // present for multi-item cart orders
   shipping: {
     name: string;
     email: string;

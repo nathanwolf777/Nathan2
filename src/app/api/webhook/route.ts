@@ -25,11 +25,46 @@ export async function POST(req: NextRequest) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
+    // Decode cart items (item0, item1, …). Falls back to legacy frameConfig.
+    const items: {
+      type: string;
+      quantity: number;
+      names: string;
+      time: string;
+      rankingOverall: string;
+      rankingAge: string;
+      nfc: boolean;
+    }[] = [];
+
+    const meta = session.metadata || {};
+    const nb = parseInt(meta.nb_articles || "0", 10);
+    if (nb > 0) {
+      for (let i = 0; i < nb && i < 15; i++) {
+        try {
+          const raw = meta[`item${i}`];
+          if (!raw) continue;
+          const d = JSON.parse(raw);
+          items.push({
+            type: d.t || "solo",
+            quantity: d.q || 1,
+            names: d.n || "—",
+            time: d.ti || "--:--:--",
+            rankingOverall: d.ov || "",
+            rankingAge: d.ag || "",
+            nfc: d.nfc === 1,
+          });
+        } catch {
+          /* skip malformed item */
+        }
+      }
+    }
+
+    // Legacy single-config fallback (older checkout).
     let config: FrameConfig = defaultConfig;
     try {
       config = {
         ...defaultConfig,
-        ...JSON.parse(session.metadata?.frameConfig || "{}"),
+        ...JSON.parse(meta.frameConfig || "{}"),
       };
     } catch {
       /* keep default */
@@ -43,6 +78,7 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
       status: "paid" as const,
       config,
+      items: items.length > 0 ? items : undefined,
       shipping: {
         name: shipping?.name || "—",
         email: shipping?.email || "—",

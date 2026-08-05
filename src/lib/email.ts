@@ -1,6 +1,14 @@
 import { Order } from "./orders";
 import { isDuoType, labelFor, shippingLabel } from "@/data/product";
 
+// Label from a plain type string (cart items store the type as string).
+function labelForType(t: string): string {
+  if (t === "duo") return "Duo";
+  if (t === "duo-solo") return "Duo (1 patch)";
+  if (t === "hexa") return "Hexagone";
+  return "Solo";
+}
+
 // Sends an order-notification email via Resend.
 // Requires env vars: RESEND_API_KEY and ORDER_EMAIL_TO (your inbox).
 // If not configured, it silently does nothing (so the site never crashes).
@@ -17,6 +25,35 @@ export async function sendOrderEmail(order: Order): Promise<void> {
   const athletes = isDuo
     ? `${c.p1FirstName} ${c.p1LastName} & ${c.p2FirstName} ${c.p2LastName}`
     : `${c.firstName} ${c.lastName}`;
+
+  const itemsHtml =
+    order.items && order.items.length > 0
+      ? `<div style="margin:16px 0">
+          <div style="font-weight:bold;color:#c9a24b;margin-bottom:8px">${order.items.length} article(s) commandé(s) :</div>
+          ${order.items
+            .map(
+              (it, i) =>
+                `<div style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:8px"><div style="font-weight:bold">Article ${
+                  i + 1
+                } — Cadre ${labelForType(it.type)} × ${
+                  it.quantity
+                }</div><div style="font-size:13px;color:#555;margin-top:4px">Athlète(s) : ${
+                  it.names
+                }<br/>Temps : ${it.time}${
+                  it.rankingOverall || it.rankingAge
+                    ? `<br/>#OV ${it.rankingOverall || "—"} · #AG ${
+                        it.rankingAge || "—"
+                      }`
+                    : "<br/>Classement masqué"
+                }${
+                  it.nfc
+                    ? `<br/><strong style="color:#c9a24b">Patch NFC : à paramétrer au nom inscrit</strong>`
+                    : ""
+                }</div></div>`
+            )
+            .join("")}
+        </div>`
+      : "";
 
   const rows: [string, string][] = [
     ["Référence", order.id],
@@ -41,6 +78,7 @@ export async function sendOrderEmail(order: Order): Promise<void> {
     <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto">
       <h2 style="color:#c9a24b">Nouvelle commande TrophyFrames</h2>
       <p>Une commande vient d'être payée. Détails ci-dessous :</p>
+      ${itemsHtml}
       <table style="width:100%;border-collapse:collapse">
         ${rows
           .map(

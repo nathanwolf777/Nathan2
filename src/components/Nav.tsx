@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import FrameEnterButton from "@/components/FrameEnterButton";
+import { useCart } from "@/lib/cart";
 
 const links = [
   { href: "/", label: "Accueil" },
@@ -14,6 +15,7 @@ const links = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { count } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -47,6 +49,22 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
+          <Link
+            href="/panier"
+            className="relative text-mist hover:text-pearl transition-colors"
+            aria-label="Panier"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+            {count > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent text-ink text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {count}
+              </span>
+            )}
+          </Link>
           <FrameEnterButton
             href="/configurateur"
             className="text-sm px-5 py-2 rounded-full bg-pearl text-ink font-medium hover:bg-white transition-all duration-300 hover:scale-105"
@@ -92,6 +110,13 @@ export default function Nav() {
                   {l.label}
                 </Link>
               ))}
+              <Link
+                href="/panier"
+                onClick={() => setOpen(false)}
+                className="text-sm text-mist hover:text-pearl flex items-center gap-2"
+              >
+                Panier{count > 0 ? ` (${count})` : ""}
+              </Link>
               <FrameEnterButton
                 href="/configurateur"
                 className="text-sm px-5 py-2.5 rounded-full bg-pearl text-ink font-medium text-center w-full"

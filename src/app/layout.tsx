@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import { CartProvider } from "@/lib/cart";
 import Footer from "@/components/Footer";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://trophy-frames.com";
@@ -58,9 +59,11 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="grain min-h-screen flex flex-col">
-        <Nav />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Nav />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

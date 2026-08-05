@@ -7,73 +7,121 @@ import {
   shippingCost,
   shippingLabel,
   FrameConfig,
+  ShippingMethod,
 } from "@/data/product";
+
+interface CartLine {
+  config: FrameConfig;
+  quantity: number;
+}
+
+function encodeItem(c: FrameConfig, q: number): string {
+  const names = isDuoType(c.type)
+    ? `${c.p1FirstName} ${c.p1LastName} & ${c.p2FirstName} ${c.p2LastName}`
+    : c.type === "hexa"
+    ? c.firstName
+    : `${c.firstName} ${c.lastName}`;
+  return JSON.stringify({
+    t: c.type,
+    q,
+    n: names,
+    ti: c.time,
+    ov: c.showRanking ? c.rankingOverall : "",
+    ag: c.showRanking ? c.rankingAge : "",
+    nfc: c.nfc ? 1 : 0,
+  });
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const body = (await req.json()) as { config: FrameConfig; quantity?: number };
-    const config = body.config;
-    const quantity = Math.min(20, Math.max(1, Math.floor(body.quantity || 1)));
+    const body = (await req.json()) as {
+      config?: FrameConfig;
+      quantity?: number;
+      items?: CartLine[];
+      shipping?: ShippingMethod;
+    };
+
+    let lines: CartLine[];
+    let shipping: ShippingMethod;
+
+    if (body.items && body.items.length > 0) {
+      lines = body.items.map((it) => ({
+        config: it.config,
+        quantity: Math.min(20, Math.max(1, Math.floor(it.quantity || 1))),
+      }));
+      shipping = body.shipping || lines[0].config.shipping || "relay";
+    } else if (body.config) {
+      const quantity = Math.min(20, Math.max(1, Math.floor(body.quantity || 1)));
+      lines = [{ config: body.config, quantity }];
+      shipping = body.config.shipping || "relay";
+    } else {
+      return NextResponse.json({ error: "Panier vide." }, { status: 400 });
+    }
 
     const baseUrl =
       process.env.NEXT_PUBLIC_BASE_URL ||
       req.headers.get("origin") ||
       "http://localhost:3000";
 
-    // Compact config for Stripe metadata (limit: 500 chars/value).
-    const compact = { ...config };
+    const line_items = lines.map((l) => {
+      const c = l.config;
+      const detail = isDuoType(c.type)
+        ? `${c.p1FirstName} ${c.p1LastName} & ${c.p2FirstName} ${c.p2LastName}`
+        : c.type === "hexa"
+        ? `${c.firstName}`
+        : `${c.firstName} ${c.lastName}`;
+      const ranking = c.showRanking
+        ? ` · #OV ${c.rankingOverall} · #AG ${c.rankingAge}`
+        : "";
+      return {
+        price_data: {
+          currency: "eur" as const,
+          product_data: {
+            name: `TrophyFrames — Cadre ${labelFor(c.type)}`,
+            description: `${detail} · ${c.time}${ranking}${
+              c.nfc ? " · Patch NFC" : ""
+            }`,
+          },
+          unit_amount: Math.round(priceFor(c.type) * 100),
+        },
+        quantity: l.quantity,
+      };
+    });
+
+    if (shippingCost(shipping) > 0) {
+      line_items.push({
+        price_data: {
+          currency: "eur" as const,
+          product_data: {
+            name: shippingLabel(shipping),
+            description: "Frais de livraison",
+          },
+          unit_amount: Math.round(shippingCost(shipping) * 100),
+        },
+        quantity: 1,
+      });
+    }
+
+    const metadata: Record<string, string> = {
+      livraison: shippingLabel(shipping),
+      nb_articles: String(lines.length),
+    };
+    lines.forEach((l, i) => {
+      if (i < 15) {
+        metadata[`item${i}`] = encodeItem(l.config, l.quantity).slice(0, 490);
+      }
+    });
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
-      // Page de paiement, reçus et factures en français.
       locale: "fr",
-      // Affiche le champ "code promo" sur la page de paiement Stripe.
       allow_promotion_codes: true,
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: `TrophyFrames — Cadre ${labelFor(config.type)}`,
-              description: `${
-                isDuoType(config.type)
-                  ? `${config.p1FirstName} ${config.p1LastName} & ${config.p2FirstName} ${config.p2LastName}`
-                  : `${config.firstName} ${config.lastName}`
-              } · #OV ${config.rankingOverall} · #AG ${config.rankingAge}`,
-            },
-            unit_amount: Math.round(priceFor(config.type) * 100),
-          },
-          quantity,
-        },
-        // Shipping as its own line so the customer sees the breakdown.
-        ...(shippingCost(config.shipping) > 0
-          ? [
-              {
-                price_data: {
-                  currency: "eur" as const,
-                  product_data: {
-                    name: shippingLabel(config.shipping),
-                  },
-                  unit_amount: Math.round(shippingCost(config.shipping) * 100),
-                },
-                quantity: 1,
-              },
-            ]
-          : []),
-      ],
-      // Livraison en France métropolitaine uniquement pour le moment.
-      shipping_address_collection: {
-        allowed_countries: ["FR"],
-      },
-      metadata: {
-        frameConfig: JSON.stringify(compact).slice(0, 490),
-        livraison: shippingLabel(config.shipping),
-        patch_nfc: config.nfc ? "Oui" : "Non",
-        quantite: String(quantity),
-      },
+      line_items,
+      shipping_address_collection: { allowed_countries: ["FR"] },
+      metadata,
       success_url: `${baseUrl}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/configurateur`,
+      cancel_url: `${baseUrl}/panier`,
     });
 
     return NextResponse.json({ url: session.url });
