@@ -16,14 +16,51 @@ export async function GET(req: NextRequest) {
     try {
       const session = await stripe.checkout.sessions.retrieve(sessionId);
       if (session.payment_status === "paid") {
+        const meta = session.metadata || {};
+        // Decode cart items if present.
+        const items: {
+          type: string;
+          quantity: number;
+          names: string;
+          time: string;
+          rankingOverall: string;
+          rankingAge: string;
+          nfc: boolean;
+        }[] = [];
+        const nb = parseInt(meta.nb_articles || "0", 10);
+        for (let i = 0; i < nb && i < 15; i++) {
+          try {
+            const d = JSON.parse(meta[`item${i}`] || "");
+            items.push({
+              type: d.t || "solo",
+              quantity: d.q || 1,
+              names: d.n || "—",
+              time: d.ti || "--:--:--",
+              rankingOverall: d.ov || "",
+              rankingAge: d.ag || "",
+              nfc: d.nfc === 1,
+            });
+          } catch {
+            /* skip */
+          }
+        }
+
         let config: FrameConfig = defaultConfig;
         try {
           config = {
             ...defaultConfig,
-            ...JSON.parse(session.metadata?.frameConfig || "{}"),
+            ...JSON.parse(meta.frameConfig || "{}"),
           };
         } catch {
           /* default */
+        }
+        // For cart orders, reflect the first item + chosen shipping in config.
+        if (items.length > 0) {
+          config = {
+            ...config,
+            type: items[0].type as FrameConfig["type"],
+            shipping: meta.livraison?.includes("domicile") ? "home" : "relay",
+          };
         }
         const cd = session.customer_details;
         const addr = cd?.address;
@@ -32,6 +69,7 @@ export async function GET(req: NextRequest) {
           createdAt: new Date().toISOString(),
           status: "paid",
           config,
+          items: items.length > 0 ? items : undefined,
           shipping: {
             name: cd?.name || "—",
             email: cd?.email || "—",
@@ -58,6 +96,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     id: order.id,
     config: order.config,
+    items: order.items || null,
     shipping: { name: order.shipping.name, email: order.shipping.email },
     amount: order.amount,
   });

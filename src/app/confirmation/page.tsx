@@ -12,9 +12,27 @@ import {
   shippingLabel,
 } from "@/data/product";
 
+function labelForType(t: string): string {
+  if (t === "duo") return "Duo";
+  if (t === "duo-solo") return "Duo (1 patch)";
+  if (t === "hexa") return "Hexagone";
+  return "Solo";
+}
+
+interface OrderItem {
+  type: string;
+  quantity: number;
+  names: string;
+  time: string;
+  rankingOverall: string;
+  rankingAge: string;
+  nfc: boolean;
+}
+
 interface Summary {
   id: string;
   config: FrameConfig;
+  items: OrderItem[] | null;
   shipping: { name: string; email: string };
   amount: number;
 }
@@ -101,10 +119,29 @@ function Confirmation() {
               </p>
               <div className="glass rounded-2xl p-5 space-y-3 mb-6">
                 <Row label="Référence" value={data.id} />
-                <Row
-                  label="Modèle"
-                  value={`Cadre ${labelFor(data.config.type)}`}
-                />
+                {data.items && data.items.length > 0 ? (
+                  <div className="space-y-2 pt-1">
+                    {data.items.map((it, i) => (
+                      <div
+                        key={i}
+                        className="flex justify-between text-sm border-b border-white/[0.06] pb-2 last:border-0"
+                      >
+                        <span className="text-mist">
+                          Cadre {labelForType(it.type)}
+                          {it.quantity > 1 ? ` × ${it.quantity}` : ""}
+                        </span>
+                        <span className="text-pearl text-right">
+                          {it.names} · {it.time}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <Row
+                    label="Modèle"
+                    value={`Cadre ${labelFor(data.config.type)}`}
+                  />
+                )}
                 <Row
                   label="Montant"
                   value={data.amount.toLocaleString("fr-FR", {

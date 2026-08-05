@@ -159,19 +159,45 @@ async function sendCustomerEmail(order: Order): Promise<void> {
     ? `${c.p1FirstName} ${c.p1LastName} & ${c.p2FirstName} ${c.p2LastName}`
     : `${c.firstName} ${c.lastName}`;
 
+  const custItemsHtml =
+    order.items && order.items.length > 0
+      ? `<div style="margin:12px 0">${order.items
+          .map(
+            (it) =>
+              `<div style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:8px"><div style="font-weight:bold">Cadre ${labelForType(
+                it.type
+              )} × ${it.quantity}</div><div style="font-size:13px;color:#555;margin-top:4px">${
+                it.names
+              } · ${it.time}${
+                it.rankingOverall || it.rankingAge
+                  ? `<br/>#OV ${it.rankingOverall || "—"} · #AG ${
+                      it.rankingAge || "—"
+                    }`
+                  : ""
+              }${it.nfc ? "<br/>Patch NFC" : ""}</div></div>`
+          )
+          .join("")}</div>`
+      : "";
+
+  const singleTable =
+    order.items && order.items.length > 0
+      ? ""
+      : `<tr><td style="padding:6px 8px;border-bottom:1px solid #eee;color:#666">Modèle</td>
+            <td style="padding:6px 8px;border-bottom:1px solid #eee;font-weight:600">Cadre ${labelFor(
+              c.type
+            )}</td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid #eee;color:#666">Athlète(s)</td>
+            <td style="padding:6px 8px;border-bottom:1px solid #eee;font-weight:600">${athletes}</td></tr>`;
+
   const html = `
     <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto">
       <h2 style="color:#c9a24b">Merci pour votre commande !</h2>
       <p>Bonjour ${order.shipping.name || ""},</p>
       <p>Votre commande <strong>${order.id}</strong> est confirmée. Votre cadre
       est en cours de fabrication. Vous recevrez un email dès son expédition.</p>
+      ${custItemsHtml}
       <table style="width:100%;border-collapse:collapse;margin-top:12px">
-        <tr><td style="padding:6px 8px;border-bottom:1px solid #eee;color:#666">Modèle</td>
-            <td style="padding:6px 8px;border-bottom:1px solid #eee;font-weight:600">Cadre ${
-              labelFor(c.type)
-            }</td></tr>
-        <tr><td style="padding:6px 8px;border-bottom:1px solid #eee;color:#666">Athlète(s)</td>
-            <td style="padding:6px 8px;border-bottom:1px solid #eee;font-weight:600">${athletes}</td></tr>
+        ${singleTable}
         <tr><td style="padding:6px 8px;border-bottom:1px solid #eee;color:#666">Montant</td>
             <td style="padding:6px 8px;border-bottom:1px solid #eee;font-weight:600">${order.amount.toFixed(
               2
