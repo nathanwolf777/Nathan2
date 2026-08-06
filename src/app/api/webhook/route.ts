@@ -25,6 +25,28 @@ export async function POST(req: NextRequest) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
+    // Look up the promo code the customer entered, if any.
+    let promoCode = "";
+    try {
+      const full = await stripe.checkout.sessions.retrieve(session.id, {
+        expand: ["total_details.breakdown.discounts"],
+      });
+      const disc = full.total_details?.breakdown?.discounts?.[0];
+      if (disc) {
+        // discount.discount.promotion_code may be an id; fetch its code.
+        const promoId =
+          typeof disc.discount?.promotion_code === "string"
+            ? disc.discount.promotion_code
+            : disc.discount?.promotion_code?.id;
+        if (promoId) {
+          const promo = await stripe.promotionCodes.retrieve(promoId);
+          promoCode = promo.code || "";
+        }
+      }
+    } catch (e) {
+      console.error("Lecture code promo échouée:", e);
+    }
+
     // Decode cart items (item0, item1, …). Falls back to legacy frameConfig.
     const items: {
       type: string;
@@ -89,6 +111,7 @@ export async function POST(req: NextRequest) {
       },
       amount: (session.amount_total || 0) / 100,
       sessionId: session.id,
+      promoCode,
     };
 
     saveOrder(order);

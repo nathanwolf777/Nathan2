@@ -64,6 +64,9 @@ export async function sendOrderEmail(order: Order): Promise<void> {
     ["Classement général (#OV)", c.rankingOverall],
     ["Classement catégorie (#AG)", c.rankingAge],
     ["Montant", `${order.amount.toFixed(2)} €`],
+    ...(order.promoCode
+      ? ([["Code promo utilisé", order.promoCode]] as [string, string][])
+      : []),
     ["— Livraison —", ""],
     ["Mode choisi", shippingLabel(c.shipping)],
     ["Patch NFC", c.nfc ? "OUI — à paramétrer au nom inscrit" : "Non"],

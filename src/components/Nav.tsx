@@ -73,22 +73,40 @@ export default function Nav() {
           </FrameEnterButton>
         </div>
 
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5"
-          aria-label="Menu"
-        >
-          <span
-            className={`w-5 h-px bg-pearl transition-all ${
-              open ? "rotate-45 translate-y-[3px]" : ""
-            }`}
-          />
-          <span
-            className={`w-5 h-px bg-pearl transition-all ${
-              open ? "-rotate-45 -translate-y-[3px]" : ""
-            }`}
-          />
-        </button>
+        <div className="md:hidden flex items-center gap-4">
+          <Link
+            href="/panier"
+            className="relative text-pearl"
+            aria-label="Panier"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+            {count > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent text-ink text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {count}
+              </span>
+            )}
+          </Link>
+          <button
+            onClick={() => setOpen(!open)}
+            className="w-9 h-9 flex flex-col items-center justify-center gap-1.5"
+            aria-label="Menu"
+          >
+            <span
+              className={`w-5 h-px bg-pearl transition-all ${
+                open ? "rotate-45 translate-y-[3px]" : ""
+              }`}
+            />
+            <span
+              className={`w-5 h-px bg-pearl transition-all ${
+                open ? "-rotate-45 -translate-y-[3px]" : ""
+              }`}
+            />
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
