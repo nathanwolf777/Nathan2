@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -72,151 +73,177 @@ const steps = [
 ];
 
 export default function Home() {
+  const [brand, setBrand] = useState<null | "crossfit-valence" | "bdp">(null);
   return (
     <div className="relative overflow-x-clip">
       {/* ambient glow */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[min(800px,100vw)] h-[500px] sm:h-[800px] rounded-full bg-accent/5 blur-[120px]" />
 
-      {/* HERO */}
-      <section className="relative pt-32 pb-20 px-5">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div>
+      {/* HERO — brand choice, then products */}
+      <section className="relative pt-32 pb-16 px-5 min-h-[70vh] flex items-center">
+        <div className="max-w-6xl mx-auto w-full">
+          {brand === null ? (
+            <>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="text-center mb-12"
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-mist mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  Cadres souvenirs pour athlètes
+                </div>
+                <h1 className="text-4xl sm:text-6xl font-semibold tracking-tightest leading-[0.95]">
+                  Vos performances,
+                  <br />
+                  <span className="gold-text">immortalisées.</span>
+                </h1>
+                <p className="mt-5 text-mist max-w-lg mx-auto">
+                  Choisissez votre événement pour découvrir les cadres
+                  disponibles.
+                </p>
+              </motion.div>
+
+              <div className="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+                {(
+                  [
+                    {
+                      id: "crossfit-valence" as const,
+                      name: "CrossFit Valence",
+                      sub: "Cadres souvenirs officiels de l'événement",
+                    },
+                    {
+                      id: "bdp" as const,
+                      name: "BDP",
+                      sub: "Cadres souvenirs officiels de l'événement",
+                    },
+                  ]
+                ).map((b, i) => (
+                  <motion.button
+                    key={b.id}
+                    onClick={() => setBrand(b.id)}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.15 + i * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group relative overflow-hidden rounded-3xl glass p-10 min-h-[240px] flex flex-col justify-end text-left border border-white/[0.07] hover:border-accent/40 transition-colors"
+                  >
+                    <div className="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-accent/10 blur-3xl group-hover:bg-accent/20 transition-colors duration-700" />
+                    <span className="text-xs uppercase tracking-widest text-accent mb-2">
+                      Notre partenaire
+                    </span>
+                    <span className="text-3xl sm:text-4xl font-semibold">
+                      {b.name}
+                    </span>
+                    <span className="text-mist text-sm mt-2">{b.sub}</span>
+                    <span className="inline-flex items-center gap-2 mt-5 text-sm text-pearl group-hover:gap-3 transition-all">
+                      Voir les cadres →
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+            </>
+          ) : (
             <motion.div
+              key={brand}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-mist mb-6"
+              transition={{ duration: 0.5 }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              Cadres souvenirs pour athlètes
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tightest leading-[0.95]"
-            >
-              Vos performances,
-              <br />
-              <span className="gold-text">immortalisées.</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 text-lg text-mist max-w-md leading-relaxed"
-            >
-              Un cadre premium personnalisé qui capture votre exploit sportif.
-              Solo ou duo. Fabriqué à la demande.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 flex flex-wrap items-center gap-4"
-            >
-              <FrameEnterButton
-                href="/configurateur"
-                className="group px-7 py-3.5 rounded-full bg-pearl text-ink font-medium hover:bg-white transition-all duration-300 hover:scale-105"
-              >
-                Créer mon cadre
-                <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">
-                  →
-                </span>
-              </FrameEnterButton>
-              <div className="text-sm text-mist">
-                <span className="text-pearl font-semibold text-lg">
-                  À partir de{" "}
-                  {PRICE_HEXA.toLocaleString("fr-FR", {
-                    style: "currency",
-                    currency: "EUR",
-                  })}
-                </span>
-                {" · "}Livraison offerte en point relais
-              </div>
-              <div className="mt-2 inline-flex items-center gap-2 text-xs text-mist">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                Expédition en moins de 5 jours ouvrés
-              </div>
-            </motion.div>
-          </div>
-
-          <HeroMedia />
-        </div>
-      </section>
-
-      {/* PRODUCT CARDS */}
-      <section className="px-5 pt-4 pb-12">
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-10">
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-                Chaque exploit mérite son <span className="gold-text">cadre</span>.
-              </h2>
-              <p className="text-mist mt-3 max-w-xl mx-auto">
-                Trouvez le format qui raconte le mieux votre histoire.
-              </p>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            {
-              label: "Hexagone",
-              price: PRICE_HEXA,
-              img: "/carte-hexagone.jpg",
-              href: "/configurateur?type=hexa",
-            },
-            {
-              label: "Solo",
-              price: PRICE_SOLO,
-              img: "/carte-solo.jpg",
-              href: "/configurateur?type=solo",
-            },
-            {
-              label: "Duo",
-              price: PRICE_DUO,
-              img: "/carte-duo.jpg",
-              href: "/configurateur?type=duo",
-            },
-            {
-              label: "Duo (1 patch)",
-              price: PRICE_DUO_SOLO,
-              img: "/carte-duo-1patch.jpg",
-              href: "/configurateur?type=duo-solo",
-            },
-          ].map((p, i) => (
-            <Reveal key={p.label} delay={i * 0.08}>
-              <div className="group rounded-2xl border border-white/[0.07] bg-white/[0.02] overflow-hidden hover:border-accent/25 transition-colors duration-500 flex flex-col h-full">
-                <div className="relative aspect-square overflow-hidden bg-smoke/40">
-                  <Image
-                    src={p.img}
-                    alt={`Cadre ${p.label}`}
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <div className="text-sm font-medium text-pearl">
-                    Cadre {p.label}
-                  </div>
-                  <div className="text-lg font-semibold gold-text mt-0.5">
-                    {p.price.toLocaleString("fr-FR", {
-                      style: "currency",
-                      currency: "EUR",
-                    })}
-                  </div>
-                  <FrameEnterButton
-                    href={p.href}
-                    className="mt-3 w-full py-2.5 rounded-full bg-pearl text-ink text-sm font-medium hover:bg-white transition-colors text-center"
+              <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+                <div>
+                  <button
+                    onClick={() => setBrand(null)}
+                    className="text-sm text-mist hover:text-pearl mb-2 inline-flex items-center gap-1"
                   >
-                    Commander
-                  </FrameEnterButton>
+                    ← Changer d'événement
+                  </button>
+                  <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+                    Cadres{" "}
+                    <span className="gold-text">
+                      {brand === "crossfit-valence" ? "CrossFit Valence" : "BDP"}
+                    </span>
+                  </h2>
+                  <p className="text-mist mt-2">
+                    Utilisez votre bon de réduction reçu le jour de l'événement au
+                    moment du paiement.
+                  </p>
                 </div>
               </div>
-            </Reveal>
-          ))}
-          </div>
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  {
+                    label: "Hexagone",
+                    price: PRICE_HEXA,
+                    img: "/carte-hexagone.jpg",
+                    type: "hexa",
+                  },
+                  {
+                    label: "Solo",
+                    price: PRICE_SOLO,
+                    img: "/carte-solo.jpg",
+                    type: "solo",
+                  },
+                  {
+                    label: "Duo",
+                    price: PRICE_DUO,
+                    img: "/carte-duo.jpg",
+                    type: "duo",
+                  },
+                  {
+                    label: "Duo (1 patch)",
+                    price: PRICE_DUO_SOLO,
+                    img: "/carte-duo-1patch.jpg",
+                    type: "duo-solo",
+                  },
+                ].map((prod, i) => (
+                  <Reveal key={prod.label} delay={i * 0.08}>
+                    <div className="group rounded-2xl border border-white/[0.07] bg-white/[0.02] overflow-hidden hover:border-accent/25 transition-colors duration-500 flex flex-col h-full">
+                      <div className="relative aspect-square overflow-hidden bg-smoke/40">
+                        <Image
+                          src={prod.img}
+                          alt={`Cadre ${prod.label}`}
+                          width={400}
+                          height={400}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="p-4 flex flex-col flex-1">
+                        <div className="text-sm font-medium text-pearl">
+                          Cadre {prod.label}
+                        </div>
+                        <div className="text-lg font-semibold gold-text mt-0.5">
+                          {prod.price.toLocaleString("fr-FR", {
+                            style: "currency",
+                            currency: "EUR",
+                          })}
+                        </div>
+                        <FrameEnterButton
+                          href={`/configurateur?type=${prod.type}&event=${brand}`}
+                          className="mt-3 w-full py-2.5 rounded-full bg-pearl text-ink text-sm font-medium hover:bg-white transition-colors text-center"
+                        >
+                          Commander
+                        </FrameEnterButton>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              <p className="text-center text-xs text-mist mt-8">
+                À partir de{" "}
+                {PRICE_HEXA.toLocaleString("fr-FR", {
+                  style: "currency",
+                  currency: "EUR",
+                })}{" "}
+                · Livraison offerte en point relais · Expédition en moins de 5
+                jours ouvrés
+              </p>
+            </motion.div>
+          )}
         </div>
       </section>
 

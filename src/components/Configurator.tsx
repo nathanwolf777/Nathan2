@@ -21,8 +21,10 @@ import { useCart } from "@/lib/cart";
 
 export default function Configurator({
   initialType = "hexa",
+  eventName = "",
 }: {
   initialType?: FrameType;
+  eventName?: string;
 }) {
   const [config, setConfig] = useState<FrameConfig>({
     ...defaultConfig,
@@ -57,7 +59,7 @@ export default function Configurator({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ config, quantity }),
+        body: JSON.stringify({ config, quantity, eventName }),
       });
       const data = await res.json();
       if (data.url) {
@@ -342,25 +344,6 @@ export default function Configurator({
                   Nous livrons uniquement en France pour le moment.
                 </p>
               </div>
-
-              {/* NFC patch option */}
-              <div className="border-t border-white/[0.06] pt-5">
-                <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={config.nfc}
-                    onChange={(e) => update("nfc", e.target.checked)}
-                    className="w-4 h-4 mt-0.5 rounded accent-accent cursor-pointer"
-                  />
-                  <span>
-                    <span className="text-sm text-pearl">Patch NFC</span>
-                    <span className="block text-[11px] text-mist leading-relaxed mt-0.5">
-                      Nous paramétrons le patch NFC avec le nom inscrit sur le
-                      cadre.
-                    </span>
-                  </span>
-                </label>
-              </div>
             </div>
 
             {/* order box */}
@@ -458,7 +441,7 @@ export default function Configurator({
               <button
                 type="button"
                 onClick={() => {
-                  add({ ...config }, quantity);
+                  add({ ...config, eventName }, quantity);
                   setAdded(true);
                   setTimeout(() => setAdded(false), 2000);
                 }}

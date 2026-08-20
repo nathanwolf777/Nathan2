@@ -14,6 +14,7 @@ export interface FrameConfig {
   showRanking: boolean; // afficher ou non les classements #OV / #AG
   shipping: ShippingMethod; // mode de livraison choisi
   nfc: boolean; // patch NFC paramétré avec le nom du cadre
+  eventName?: string; // enseigne partenaire (CrossFit Valence, BDP)
 }
 
 // Modes de livraison. Le point relais est offert, le domicile est majoré.

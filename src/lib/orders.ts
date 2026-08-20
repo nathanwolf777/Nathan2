@@ -29,6 +29,7 @@ export interface Order {
   amount: number;
   sessionId: string;
   promoCode?: string;
+  enseigne?: string;
 }
 
 // On Vercel the project filesystem is read-only; only /tmp is writable

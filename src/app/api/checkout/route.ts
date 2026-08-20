@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
       quantity?: number;
       items?: CartLine[];
       shipping?: ShippingMethod;
+      eventName?: string;
     };
 
     let lines: CartLine[];
@@ -57,6 +58,11 @@ export async function POST(req: NextRequest) {
     } else {
       return NextResponse.json({ error: "Panier vide." }, { status: 400 });
     }
+
+    const eventName =
+      body.eventName ||
+      lines[0]?.config?.eventName ||
+      "";
 
     const baseUrl =
       process.env.NEXT_PUBLIC_BASE_URL ||
@@ -105,6 +111,7 @@ export async function POST(req: NextRequest) {
     const metadata: Record<string, string> = {
       livraison: shippingLabel(shipping),
       nb_articles: String(lines.length),
+      ...(eventName ? { enseigne: eventName } : {}),
     };
     lines.forEach((l, i) => {
       if (i < 15) {

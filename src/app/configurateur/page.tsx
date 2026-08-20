@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Page({
   searchParams,
 }: {
-  searchParams: { type?: string };
+  searchParams: { type?: string; event?: string };
 }) {
   const valid: FrameType[] = ["solo", "duo", "duo-solo", "hexa"];
   const initialType: FrameType = valid.includes(
@@ -19,5 +19,12 @@ export default function Page({
   )
     ? (searchParams.type as FrameType)
     : "hexa";
-  return <Configurator initialType={initialType} />;
+  const eventNames: Record<string, string> = {
+    "crossfit-valence": "CrossFit Valence",
+    bdp: "BDP",
+  };
+  const eventName = searchParams.event
+    ? eventNames[searchParams.event] || ""
+    : "";
+  return <Configurator initialType={initialType} eventName={eventName} />;
 }

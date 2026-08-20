@@ -112,6 +112,7 @@ export async function POST(req: NextRequest) {
       amount: (session.amount_total || 0) / 100,
       sessionId: session.id,
       promoCode,
+      enseigne: meta.enseigne || "",
     };
 
     saveOrder(order);

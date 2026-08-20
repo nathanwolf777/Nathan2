@@ -64,6 +64,9 @@ export async function sendOrderEmail(order: Order): Promise<void> {
     ["Classement général (#OV)", c.rankingOverall],
     ["Classement catégorie (#AG)", c.rankingAge],
     ["Montant", `${order.amount.toFixed(2)} €`],
+    ...(order.enseigne
+      ? ([["Enseigne", order.enseigne]] as [string, string][])
+      : []),
     ...(order.promoCode
       ? ([["Code promo utilisé", order.promoCode]] as [string, string][])
       : []),
