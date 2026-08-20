@@ -74,6 +74,38 @@ const steps = [
 
 export default function Home() {
   const [brand, setBrand] = useState<null | "crossfit-valence" | "bdp">(null);
+
+  const allProducts = [
+    {
+      label: "Hexagone",
+      price: PRICE_HEXA,
+      img: "/carte-hexagone.jpg",
+      type: "hexa",
+      events: ["bdp"],
+    },
+    {
+      label: "Solo",
+      price: PRICE_SOLO,
+      img: "/carte-solo.jpg",
+      type: "solo",
+      events: ["bdp"],
+    },
+    {
+      label: "Duo",
+      price: PRICE_DUO,
+      img: "/carte-duo.jpg",
+      type: "duo",
+      events: ["crossfit-valence"],
+    },
+    {
+      label: "Duo (1 patch)",
+      price: PRICE_DUO_SOLO,
+      img: "/carte-duo-1patch.jpg",
+      type: "duo-solo",
+      events: ["crossfit-valence"],
+    },
+  ];
+
   return (
     <div className="relative overflow-x-clip">
       {/* ambient glow */}
@@ -115,7 +147,7 @@ export default function Home() {
                     },
                     {
                       id: "bdp" as const,
-                      name: "BDP",
+                      name: "BDP Training Club",
                       sub: "Cadres souvenirs officiels de l'événement",
                     },
                   ]
@@ -144,6 +176,53 @@ export default function Home() {
                   </motion.button>
                 ))}
               </div>
+
+              {/* Products preview under the brand choice */}
+              <div className="mt-20">
+                <Reveal>
+                  <div className="text-center mb-10">
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+                      Nos <span className="gold-text">cadres</span>
+                    </h2>
+                    <p className="text-mist mt-3 max-w-xl mx-auto">
+                      Quatre formats pour immortaliser votre performance.
+                      Sélectionnez votre événement ci-dessus pour commander avec
+                      votre bon de réduction.
+                    </p>
+                  </div>
+                </Reveal>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  {allProducts.map((prod, i) => (
+                    <Reveal key={prod.label} delay={i * 0.08}>
+                      <div className="group rounded-2xl border border-white/[0.07] bg-white/[0.02] overflow-hidden flex flex-col h-full">
+                        <div className="relative aspect-square overflow-hidden bg-smoke/40">
+                          <Image
+                            src={prod.img}
+                            alt={`Cadre ${prod.label}`}
+                            width={400}
+                            height={400}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="p-4">
+                          <div className="text-sm font-medium text-pearl">
+                            Cadre {prod.label}
+                          </div>
+                          <div className="text-lg font-semibold gold-text mt-0.5">
+                            {prod.price.toLocaleString("fr-FR", {
+                              style: "currency",
+                              currency: "EUR",
+                            })}
+                          </div>
+                          <div className="text-[11px] text-mist mt-1 leading-snug">
+                            Compatible avec votre patch de compétition
+                          </div>
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
             </>
           ) : (
             <motion.div
@@ -163,7 +242,7 @@ export default function Home() {
                   <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
                     Cadres{" "}
                     <span className="gold-text">
-                      {brand === "crossfit-valence" ? "CrossFit Valence" : "BDP"}
+                      {brand === "crossfit-valence" ? "CrossFit Valence" : "BDP Training Club"}
                     </span>
                   </h2>
                   <p className="text-mist mt-2">
@@ -173,33 +252,10 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {[
-                  {
-                    label: "Hexagone",
-                    price: PRICE_HEXA,
-                    img: "/carte-hexagone.jpg",
-                    type: "hexa",
-                  },
-                  {
-                    label: "Solo",
-                    price: PRICE_SOLO,
-                    img: "/carte-solo.jpg",
-                    type: "solo",
-                  },
-                  {
-                    label: "Duo",
-                    price: PRICE_DUO,
-                    img: "/carte-duo.jpg",
-                    type: "duo",
-                  },
-                  {
-                    label: "Duo (1 patch)",
-                    price: PRICE_DUO_SOLO,
-                    img: "/carte-duo-1patch.jpg",
-                    type: "duo-solo",
-                  },
-                ].map((prod, i) => (
+              <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+                {allProducts
+                  .filter((prod) => prod.events.includes(brand))
+                  .map((prod, i) => (
                   <Reveal key={prod.label} delay={i * 0.08}>
                     <div className="group rounded-2xl border border-white/[0.07] bg-white/[0.02] overflow-hidden hover:border-accent/25 transition-colors duration-500 flex flex-col h-full">
                       <div className="relative aspect-square overflow-hidden bg-smoke/40">
@@ -220,6 +276,9 @@ export default function Home() {
                             style: "currency",
                             currency: "EUR",
                           })}
+                        </div>
+                        <div className="text-[11px] text-mist mt-1 leading-snug">
+                          Compatible avec votre patch de compétition
                         </div>
                         <FrameEnterButton
                           href={`/configurateur?type=${prod.type}&event=${brand}`}
