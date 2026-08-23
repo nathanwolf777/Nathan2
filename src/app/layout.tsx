@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import { CartProvider } from "@/lib/cart";
+import CookieBanner from "@/components/CookieBanner";
 import Footer from "@/components/Footer";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://trophy-frames.com";
@@ -63,6 +64,7 @@ export default function RootLayout({
           <Nav />
           <main className="flex-1">{children}</main>
           <Footer />
+          <CookieBanner />
         </CartProvider>
       </body>
     </html>
