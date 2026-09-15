@@ -73,7 +73,7 @@ const steps = [
 ];
 
 export default function Home() {
-  const [brand, setBrand] = useState<null | "crossfit-valence" | "bdp">(null);
+  const [brand, setBrand] = useState<null | "crossfit-valence">(null);
 
   const allProducts = [
     {
@@ -137,17 +137,12 @@ export default function Home() {
                 </p>
               </motion.div>
 
-              <div className="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+              <div className="grid gap-5 max-w-xl mx-auto">
                 {(
                   [
                     {
                       id: "crossfit-valence" as const,
                       name: "CrossFit Valence",
-                      sub: "Cadres souvenirs officiels de l'événement",
-                    },
-                    {
-                      id: "bdp" as const,
-                      name: "BDP Training Club",
                       sub: "Cadres souvenirs officiels de l'événement",
                     },
                   ]
@@ -204,7 +199,7 @@ export default function Home() {
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        <div className="p-4">
+                        <div className="p-4 flex flex-col flex-1">
                           <div className="text-sm font-medium text-pearl">
                             Cadre {prod.label}
                           </div>
@@ -217,6 +212,12 @@ export default function Home() {
                           <div className="text-[11px] text-mist mt-1 leading-snug">
                             Compatible avec votre patch de compétition
                           </div>
+                          <FrameEnterButton
+                            href={`/configurateur?type=${prod.type}`}
+                            className="mt-3 w-full py-2.5 rounded-full bg-pearl text-ink text-sm font-medium hover:bg-white transition-colors text-center"
+                          >
+                            Commander
+                          </FrameEnterButton>
                         </div>
                       </div>
                     </Reveal>
@@ -242,7 +243,7 @@ export default function Home() {
                   <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
                     Cadres{" "}
                     <span className="gold-text">
-                      {brand === "crossfit-valence" ? "CrossFit Valence" : "BDP Training Club"}
+                      CrossFit Valence
                     </span>
                   </h2>
                   <p className="text-mist mt-2">

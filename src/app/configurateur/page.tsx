@@ -21,7 +21,6 @@ export default function Page({
     : "hexa";
   const eventNames: Record<string, string> = {
     "crossfit-valence": "CrossFit Valence",
-    bdp: "BDP Training Club",
   };
   const eventName = searchParams.event
     ? eventNames[searchParams.event] || ""
